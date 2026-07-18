@@ -1,7 +1,4 @@
 .cache/
 backups/
-config-power-saver.kdl
 config.kdl.backup-*
-icons/
-sounds/
 *.log
