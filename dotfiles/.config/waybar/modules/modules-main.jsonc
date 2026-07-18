@@ -1,0 +1,463 @@
+{
+    //_________\\ Default Modules //_________\\
+
+    // taskbar
+    "niri/taskbar": {
+		"format": "{icon}",
+		"icon-size": 18,
+		"icon-theme": "Tela-circle-dracula",
+        "spacing": 0,
+		"tooltip-format": "{title}",
+		"on-click": "activate",
+		"on-click-middle": "close",
+		"app_ids-mapping": {
+			"firefoxdeveloperedition": "firefox-developer-edition"
+		}
+	},
+
+    // network
+    "network": {
+        // "interface": "wlp2*", // (Optional) To force the use of this interface
+        "format-wifi": "{icon}",
+        "format-ethernet": "󰌘",
+        "tooltip-format": "Network: <big><b>{essid}</b></big>\nSignal strength: <b>{signaldBm}dBm ({signalStrength}%)</b>\nFrequency: <b>{frequency}MHz</b>\nInterface: <b>{ifname}</b>\nIP: <b>{ipaddr}/{cidr}</b>\nGateway: <b>{gwaddr}</b>\nNetmask: <b>{netmask}</b>\nDownload: <b><span foreground='#99ffdd'> {bandwidthDownBytes}</span></b>\nUpload: <b><span foreground='#ffcc66'> {bandwidthUpBytes}</span></b>",
+        "format-linked": "󰈀 {ifname} (No IP)",
+        "format-disconnected": "󰖪 ",
+        "tooltip-format-disconnected": "Disconnected",
+        "interval": 2,
+        "max-length": 30,
+    	"format-icons": [
+    		"󰤯", "󰤟", "󰤢", "󰤥", "󰤨"
+    	],
+        "on-click-right": "kitty -e nmtui"
+    },
+
+    // network speed
+    "network#speed": {
+        // "interface": "wlp2*", // (Optional) To force the use of this interface
+        "format": "<span foreground='#99ffdd'> {bandwidthDownBytes}</span> <span foreground='#ffcc66'> {bandwidthUpBytes}</span>",
+        "format-disconnected": "󰖪 ",
+        "tooltip": false,
+        "interval": 1,
+        "max-length": 30,
+    	"format-icons": [
+    		"󰤯", "󰤟", "󰤢", "󰤥", "󰤨"
+    	],
+        "on-click-right": "kitty -e nmtui"
+    },
+
+    // idle inhibitor
+    "idle_inhibitor": {
+        "format": "{icon}",
+        "start-activated": false,
+            "format-icons": {
+                "activated": "",
+                "deactivated": "󰛊"
+            },
+        "tooltip-format-activated":"Caffeine Mode: Active \nNothing will be happen.",
+        "tooltip-format-deactivated":"Caffeine Mode: Inactive\n\nIf there is no interaction with your\nsystem (mouse/keyboard), then \nScreen Lock: after 5 min \nScreen Off: after 10 min \nSleep: after 30 min"
+    },
+
+    // window
+    "niri/window": {
+        "format": "{}",
+        "separate-outputs": true,
+        "rewrite": {
+            "^(.*)@[^:]+:(.*)$": "$1  :$2",
+            "(.*) — Mozilla Firefox": "$1 󰈹",
+            "(.*)Mozilla Firefox": "$1 Firefox 󰈹",
+            "(.*) - Visual Studio Code": "$1 󰨞",
+            "(.*)Visual Studio Code": "$1 Code 󰨞",
+            "(.*)Spotify.*": "$1 Spotify 󰓇",
+            "(.*)Steam": "$1 Steam 󰓓",
+            "(.*) - Discord": "$1  ",
+            "(.*?)-\\s*YouTube(.*)": "$1󰗃", 
+            "(.*?\\s)YouTube(.*)": "$1YouTube 󰗃"
+        },
+        "max-length": 50
+    },
+
+    // language
+    "niri/language": {
+        "interval": 1,
+        "format": " {}",
+        "format-uk": "Uk",
+        "format-en": "US"
+    },
+
+    // workspaces
+    "niri/workspaces": {
+        "disable-scroll": true,
+        "all-outputs": true,
+        "on-click": "activate",
+        "on-scroll-up": "nirictl dispatch workspace e-1",
+        "on-scroll-down": "nirictl dispatch workspace e+1",
+        "format": "{icon}",
+        // "format-icons": {
+            // "1": "",
+            // "2": "",
+            // "3": "",
+            // "4": "",
+        //     "urgent": "",
+        //     "focused": "",
+        //     "default": ""
+        // },
+        "format-icons": {
+            // for arch
+            // "active": "󰮯",
+            // "default": ""
+
+            // for fedora
+            //  "active": "󰣛",  
+            //  "default": ""
+
+            // for opensuse
+            // "active": "",
+            // "default": ""
+          },
+        "persistent-workspaces": {
+            "1": [],
+            "2": [],
+            "3": [],
+            "4": [],
+            "5": []
+        }
+    },
+
+    //------took it from JaKooLit-------//
+
+    "niri/workspaces#preview": {
+        "disable-scroll": true,
+        "all-outputs": true,
+        "warp-on-scroll": false,
+        "sort-by-number": true,
+        "show-special": false,
+        "on-click": "activate",
+        "on-scroll-up": "nirictl dispatch workspace e+1",
+        "on-scroll-down": "nirictl dispatch workspace e-1",
+        // "persistent-workspaces": {
+        //     "*": 5
+        //   },
+        "persistent-workspaces": {
+            "1": [],
+            "2": [],
+            "3": [],
+            "4": [],
+            "5": []
+        },
+        "format": "{icon} {windows}",
+        "format-window-separator": " ",
+        "window-rewrite-default": " ",
+        "window-rewrite": {		
+            "title<.*amazon.*>": " ",
+            "title<.*reddit.*>": " ",
+
+            "class<firefox|org.mozilla.firefox|librewolf|floorp|mercury-browser|[Cc]achy-browser>": " ",
+            "class<zen>": "󰰷 ",
+            "class<waterfox|waterfox-bin>": " ",
+            "class<microsoft-edge>": " ",
+            "class<Chromium|Thorium|[Cc]hrome>": " ",
+            "class<brave-browser>": "🦁 ",
+            "class<tor browser>": " ",
+            "class<firefox-developer-edition>": "󰈹 ",
+
+            "class<kitty>": "󰄛 ",
+            "class<kitty-dropterm>": " ",
+            "class<com.mitchellh.ghostty>": " ",
+            "class<org.wezfurlong.wezterm>": " ",
+
+            "class<[Tt]hunderbird|[Tt]hunderbird-esr>": " ",
+            "class<eu.betterbird.Betterbird>": " ",
+            "title<.*gmail.*>": "󰊫 ",
+
+            "class<[Tt]elegram-desktop|org.telegram.desktop|io.github.tdesktop_x64.TDesktop>": " ",
+            "class<discord|[Ww]ebcord|Vesktop>": " ",
+            "title<.*whatsapp.*>": " ",
+        "title<.*zapzap.*>": " ",
+            "title<.*messenger.*>": " ",
+            "title<.*facebook.*>": " ",
+            "title<.*instagram.*>": "󰋾 ",
+            "title<.*reddit.*>": " ",
+            "title<.*github.com.*>": " ",
+
+
+            "title<.*ChatGPT.*>": "󰚩 ",
+            "title<.*deepseek.*>": "󰚩 ",
+            "title<.*qwen.*>": "󰚩 ",
+            "class<subl>": "󰅳 ",
+            "class<slack>": " ",
+
+            "class<mpv>": " ",
+            "class<celluloid|Zoom>": " ",
+            "class<Cider>": "󰎆 ",
+            "title<.*Picture-in-Picture.*>": " ",
+            "title<.*youtube.*>": " ",
+            "class<vlc>": "󰕼 ",
+            "title<.*cmus.*>": " ",
+            "class<[Ss]potify>": " ",
+
+            "class<virt-manager>": " ",
+            "class<.virt-manager-wrapped>": " ",
+            "class<virtualbox manager>": "💽 ",
+            "title<virtualbox>": "💽 ",
+            "class<remmina>": "🖥️ ",
+
+            "class<VSCode|code-url-handler|code-oss|codium|codium-url-handler|VSCodium|code>": "󰨞 ",
+        "class<dev.zed.Zed>": "󰵁",
+            "class<codeblocks>": "󰅩 ",
+            "title<.*github.*>": " ",
+            "title<*[Pp]hotopea.*>": " ",
+            "class<mousepad>": " ",
+            "class<libreoffice-writer>": " ",
+            "class<libreoffice-startcenter>": "󰏆 ",
+            "class<libreoffice-calc>": " ",
+            "title<.*nvim ~.*>": " ",
+            "title<.*vim.*>": " ",
+            "title<.*nvim.*>": " ",
+            "title<.*figma.*>": " ",
+            "title<.*jira.*>": " ",
+            "class<jetbrains-idea>": " ",
+
+            "class<obs|com.obsproject.Studio>": " ",
+
+            "class<polkit-gnome-authentication-agent-1>": "󰒃 ",
+            "class<nwg-look>": " ",
+            "class<[Pp]avucontrol|org.pulseaudio.pavucontrol>": "󱡫 ",
+            "class<steam>": " ",
+            "class<thunar|nemo>": "󰝰 ",	
+            "class<Gparted>":"",
+            "class<gimp>": " ",
+            "class<emulator>": "📱 ",
+            "class<android-studio>": " ",
+            "class<org.pipewire.Helvum>": "󰓃",
+            "class<localsend>":"",
+            "class<PrusaSlicer|UltiMaker-Cura|OrcaSlicer>": "󰹛",
+            "class<org.bleachbit.BleachBit>": " "
+            }
+        },
+
+    // cpu
+    "cpu": {
+        "interval": 10,
+        "format": "{icon0}{icon1}{icon2}{icon3}{icon4} {usage}%",
+        "format-icons": ["▁", "▂", "▃", "▄", "▅", "▆", "▇", "█"]
+    },
+
+    // memory
+    "memory": {
+        "interval": 2,
+        "format": "󰾅 {used}GB",
+        "max-length": 10,
+        "tooltip": true,
+        "tooltip-format": " {used:0.1f}GB/{total:0.1f}GB"
+    },
+
+    // dik
+    "disk": {
+        "interval": 30,
+        "format": " {free}",
+        "path": "/",
+        "tooltip": true,
+        "tooltip-format": "Storage - {used} used out of {total} on {path} ({percentage_used}%)"
+    },
+
+    // temperature
+    "temperature": {
+        "thermal-zone": 1,
+        "format": " {temperatureC}°C",
+        "critical-threshold": 70,
+        "format-critical": " {temperatureF}°F",
+        "on-click": "kitty --title btop sh -c 'btop'"
+    },
+    
+    // backlight
+    "backlight": {
+        "interval": 2,
+        "align": 0,
+        "rotate": 0,
+        "format": "{icon} {percent}%",
+        "format-icons": [
+            " ",
+            " ",
+            " ",
+            "󰃝 ",
+            "󰃞 ",
+            "󰃟 ",
+            "󰃠 "
+        ],
+        "tooltip-format": "backlight {percent}%",
+        "icon-size": 10,
+        "on-click": "",
+        "on-click-middle": "",
+        "on-click-right": "",
+        "on-update": "",
+        "on-scroll-up": "~/.config/niri/scripts/brightness.sh up",
+        "on-scroll-down": "~/.config/niri/scripts/brightness.sh down",
+        "smooth-scrolling-threshold": 1
+    },
+
+    // tray
+    "tray": {
+        "icon-size": 18,
+        "spacing": 10
+    },
+
+    // clock
+    "clock": {
+        "format": " {:%m月%d日 %H:%M}",
+        "format-alt": "󰃭 {:%Y年%m月%d日 %A}",
+        "format-alt-click": "click",
+        "on-click-right": "zenity --calendar --title='日历' --text='选择日期'",
+        "timezone": "Asia/Shanghai",
+        "locale": "zh_CN.UTF-8",
+        "tooltip": true,
+        "tooltip-format": "<span size='11pt' font='WenQuanYi Zen Hei Mono'>{calendar}</span>",
+        "calendar": {
+            "mode": "month",
+            "mode-mon-col": 3,
+            "on-scroll": 1,
+            "format": {
+                "months": "<span color='#dbe3c8'><b>{}</b></span>",
+                "weekdays": "<span color='#A4BCA4'><b>{}</b></span>",
+                "today": "<span color='#D2CE4B'><b>{}</b></span>"
+            }
+        },
+        "actions": {
+            "on-click-forward": "tz_up",
+            "on-click-backward": "tz_down",
+            "on-scroll-up": "shift_down",
+            "on-scroll-down": "shift_up"
+        }
+    },
+
+    // battery
+    "battery": {
+	//"interval": 5,
+	"align": 0,
+	"rotate": 0,
+	"full-at": 100,
+	"design-capacity": false,
+	"states": {
+		"good": 95,
+		"warning": 30,
+		"critical": 15
+	},
+	"format": "{icon} {capacity}%",
+	"format-charging": " {capacity}%",
+	"format-plugged": "󱘖 {capacity}%",
+	"format-alt-click": "click",
+	"format-full": "{icon} Full",
+	"format-alt": "{icon} {time}",
+	"format-icons": [
+		"󰂎", "󰁺", "󰁻", "󰁼", "󰁽", "󰁾", "󰁿", "󰂀", "󰂁", "󰂂", "󰁹"
+	    ],
+	"format-time": "{H}h {M}min",
+	"tooltip": true,
+	"tooltip-format": "{timeTo} {power}w",
+    },
+
+    "pulseaudio/slider": {
+        "min": 0,
+        "max": 100,
+        "on-scroll-up": "~/.config/niri/scripts/volumecontrol.sh --inc",
+        "on-scroll-down": "~/.config/niri/scripts/volumecontrol.sh --dec",
+        "orientation": "vertical"
+    },
+
+    // pulseaudio
+    "pulseaudio": {
+        "format": "{icon} {volume}%",
+        "format-muted": " ",
+        "tooltip": false,
+        "on-click": "~/.config/niri/scripts/volumecontrol.sh --toggle",
+        "on-click-right": "pavucontrol",
+        "on-scroll-up": "~/.config/niri/scripts/volumecontrol.sh --inc",
+        "on-scroll-down": "~/.config/niri/scripts/volumecontrol.sh --dec",
+        "scroll-step": 5,
+        "format-icons": {
+            "headphone": "",
+            "hands-free": "",
+            "headset": "",
+            "phone": "",
+            "default": ["", "", " "]
+        }
+    },
+
+    // pulseautio mic
+    "pulseaudio#microphone": {
+        "format": "{format_source}",
+        "format-source": " {volume}%",
+        "format-source-muted": "",
+        "on-click": "pamixer --default-source -t",
+        "on-click-right": "pavucontrol",
+        "on-scroll-up": "pamixer --default-source -i 5",
+        "on-scroll-down": "pamixer --default-source -d 5",
+        "scroll-step": 5
+    },
+
+    // mpris ( media player )
+    "mpris": {
+        "interval": 2,
+        "format": "{player_icon}  {status_icon}",
+        "format-paused": "{player_icon}  {status_icon}",
+        "tooltip": true,
+        "tooltip-format": "{dynamic}",
+        "on-click": "playerctl play-pause",
+        "on-click-middle": "playerctl previous",
+        "on-click-right": "playerctl next",
+        "scroll-step": 5.0,
+        "on-scroll-up": "~/.config/niri/scripts/volumecontrol.sh --inc",
+        "on-scroll-down": "~/.config/niri/scripts/volumecontrol.sh --dec",
+        "smooth-scrolling-threshold": 1,
+        "player-icons": {
+            "chromium": "",
+            "default": "",
+            "firefox": "",
+            "kdeconnect": "",
+            "mopidy": "",
+            "mpv": "󰐹",
+            "spotify": "",
+            "vlc": "󰕼"
+        },
+        "status-icons": {
+            "paused": "󰏤 ",
+            "playing": " ",
+            "stopped": ""
+        },
+        "max-length": 30
+    },
+
+    "power-profiles-daemon": {
+      "format": "{icon}",
+      "tooltip-format": "Power profile: {profile}\nDriver: {driver}",
+      "tooltip": true,
+      "format-icons": {
+        "default": "󱓞",
+        "performance": "󱓞",
+        "balanced": "",
+        "power-saver": ""
+      }
+    },
+
+    // "user": {
+    //     "format": "{user}",
+    //     "interval": 60,
+    //     "height": 30,
+    //     "width": 30,
+    //     "icon": true,
+    // },
+
+    // keyboard status
+    // "keyboard-state": {
+	// "numlock": true,
+	// "capslock": true,
+	// "format": {
+	// 	"numlock": "N {icon}",
+	// 	"capslock": "󰪛 {icon}"
+	//     },
+	// "format-icons": {
+	// 	"locked": "",
+	// 	"unlocked": ""
+	//     }
+    // },
+}

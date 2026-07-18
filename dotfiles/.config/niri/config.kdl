@@ -1,0 +1,300 @@
+
+
+//---------------------- cursor ----------------------\\
+cursor {
+    xcursor-theme "Bibata-Modern-Ice"
+}
+
+// Light global blur for balanced mode.
+blur {
+    passes 2
+    offset 2.0
+    noise 0.01
+    saturation 1.15
+}
+
+
+//---------------------- input ----------------------\\
+input {
+    keyboard {
+        xkb {
+            layout "us"
+        }
+    }
+    touchpad {
+        tap
+        natural-scroll
+    }
+    focus-follows-mouse
+}
+
+
+// Outputs intentionally use Niri's automatic layout for portability.
+// Copy a profile from ~/Projects/camellia-niri-setup/profiles/ when needed.
+
+
+//---------------------- decoration ----------------------\\
+layout {
+    gaps 20
+    always-center-single-column
+    center-focused-column "never"
+
+    preset-column-widths {
+        proportion 0.33333
+        proportion 0.5
+        proportion 0.66667
+        proportion 1.0
+    }
+    preset-window-heights {
+        proportion 0.33333
+        proportion 0.5
+        proportion 0.66667
+        proportion 1.0
+    }
+    default-column-width { proportion 0.5; }
+    focus-ring {
+        width 3
+        active-color "#dbe3c8"
+        inactive-color "#D2CE4B"
+    }
+    border {
+        off
+    }
+    struts {
+        left 0
+        right 0
+        top 0
+        bottom 0
+    }
+    background-color "transparent"
+}
+
+
+//---------------------- startup ----------------------\\
+spawn-at-startup "/usr/bin/kanshi"
+spawn-at-startup "waybar"
+spawn-at-startup "swaync"
+spawn-at-startup "fcitx5" "-d"
+spawn-sh-at-startup "wl-paste --watch cliphist store"
+spawn-sh-at-startup "sh ~/.config/niri/scripts/startup.sh"
+spawn-sh-at-startup "sh ~/.config/niri/scripts/polkit.sh"
+
+
+//---------------------- layer rules ----------------------\\
+layer-rule {
+    match namespace="^waybar$"
+    shadow {
+        on
+    }
+    background-effect {
+        blur true
+    }
+}
+
+layer-rule {
+    match namespace="^launcher$"
+    geometry-corner-radius 15
+    shadow {
+        on
+    }
+    background-effect {
+        blur true
+    }
+}
+
+//---------------------- animations ----------------------\\
+animations {
+    workspace-switch {
+            spring damping-ratio=1.0 stiffness=1000 epsilon=0.0001
+        }
+
+        window-open {
+            off
+        }
+
+        window-close {
+            off
+        }
+
+        horizontal-view-movement {
+            spring damping-ratio=1.0 stiffness=800 epsilon=0.0001
+        }
+
+        window-movement {
+            spring damping-ratio=1.0 stiffness=800 epsilon=0.0001
+        }
+
+        window-resize {
+            spring damping-ratio=1.0 stiffness=800 epsilon=0.0001
+        }
+
+        config-notification-open-close {
+            off
+        }
+
+        exit-confirmation-open-close {
+            off
+        }
+
+        screenshot-ui-open {
+            off
+        }
+
+        overview-open-close {
+            off
+        }
+}
+
+
+//---------------------- window rules ----------------------\\
+window-rule {
+    match app-id="^kitty$"
+    background-effect {
+        blur true
+    }
+}
+
+window-rule {
+    match app-id="thunar"
+    background-effect {
+        blur true
+    }
+}
+
+
+window-rule {
+    match app-id="firefox-developer-edition "
+    match app-id="code"
+    match app-id="dev.zed.Zed"
+    default-column-width { proportion 1.0; }
+    opacity 0.92
+    background-effect {
+        blur true
+    }
+}
+
+window-rule {
+    match app-id=r#"^OICPP IDE$"#
+    opacity 0.92
+    background-effect {
+        blur true
+    }
+}
+
+window-rule {
+    match app-id="kitty" title="browser"
+    match app-id="kitty" title="monitor"
+    match app-id="kitty" title="update"
+    open-floating true
+    shadow {
+        on
+    }
+}
+
+
+window-rule {
+    match title="LimbusCompany"
+    open-fullscreen true
+}
+
+window-rule {
+    open-floating false
+    // open-maximized true
+}
+
+window-rule {
+    match app-id=r#"^org\.wezfurlong\.wezterm$"#
+    default-column-width {}
+}
+
+window-rule {
+    draw-border-with-background false
+}
+
+window-rule {
+    match app-id=r#"^org\.kde\.kdeconnect\.daemon$"#
+    match app-id=r#"^galculator$"#
+    open-floating true
+}
+
+window-rule {
+    match app-id=r#"org.kde.polkit-kde-authentication-agent-1"#
+    block-out-from "screen-capture"
+    // block-out-from "screencast"
+}
+
+window-rule {
+    match app-id=r#"zen$"# title="^Picture-in-Picture$"
+    open-floating true
+}
+
+window-rule {
+    match app-id=r#"zen$"#
+    match app-id=r#"chromium$"#
+    default-column-width {proportion 0.9;}
+}
+
+window-rule {
+    match app-id=r#"neovide$"#
+    match app-id=r#"zed$"#
+    match app-id=r#"jetbrains-idea$"#
+    match app-id=r#"codium"#
+    
+    default-column-width {proportion 0.75;}
+}
+
+window-rule {
+    match app-id=r#"org.pwmt.zathura"#
+    default-column-width {proportion 0.66667;}
+}
+
+window-rule {
+    match app-id=r#"QtScrcpy$"# title="^Phone-+"
+    default-column-width {proportion 0.25;}
+}
+
+window-rule {
+    match app-id=r#"QtScrcpy$"# title="^Tool$"
+    open-floating false
+    default-column-width {}
+}
+
+window-rule {
+    geometry-corner-radius 15
+    clip-to-geometry true
+}
+
+window-rule {
+  shadow {
+    on
+  }
+}
+
+
+//---------------------- keybinds ----------------------\\
+include "conf.d/binds.kdl"
+
+//---------------------- misc configuration ----------------------\\
+screenshot-path "~/Pictures/Screenshots/screenshot_niri_%Y-%m-%d %H-%M-%S.png"
+prefer-no-csd true
+hotkey-overlay {
+    skip-at-startup
+}
+
+//---------------------- environment ----------------------\\
+environment {
+    QT_QPA_PLATFORMTHEME "qt5ct:qt6ct"
+    QT_QPA_PLATFORM_THEME "qt5ct"
+    QT_QPA_PLATFORM "wayland;xcb"
+    QT_ICON_THEME "Papirus-Dark"
+    XDG_CURRENT_DESKTOP "niri"
+    XDG_SESSION_TYPE "wayland"
+    ICON_THEME "Papirus-Dark"
+    GTK_THEME "Layan:dark"
+    GTK_ICON_THEME "Papirus-Dark"
+    INPUT_METHOD "fcitx"
+    GTK_IM_MODULE "fcitx"
+    QT_IM_MODULE "fcitx"
+    SDL_IM_MODULE "fcitx"
+    XMODIFIERS "@im=fcitx"
+}

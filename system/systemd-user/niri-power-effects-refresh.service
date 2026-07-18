@@ -1,0 +1,6 @@
+[Unit]
+Description=Refresh Niri power effects after config changes
+
+[Service]
+Type=oneshot
+ExecStart=%h/.config/niri/scripts/power-profile-effects.sh --once

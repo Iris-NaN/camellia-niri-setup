@@ -1,0 +1,5 @@
+# Required by the copied configuration but not in the official repositories.
+wlogout
+mpvpaper
+layan-gtk-theme-git
+bibata-cursor-theme-bin

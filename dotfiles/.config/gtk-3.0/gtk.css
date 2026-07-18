@@ -1,0 +1,42 @@
+@import 'colors.css';
+
+/* Thunar transparency; apply tint once so nested layers do not become opaque. */
+window.thunar {
+    background-color: rgba(20, 22, 28, 0.68);
+}
+
+window.thunar > grid,
+window.thunar grid,
+window.thunar box,
+window.thunar paned,
+window.thunar notebook,
+window.thunar stack,
+window.thunar menubar,
+window.thunar toolbar,
+window.thunar statusbar,
+window.thunar scrolledwindow,
+window.thunar viewport,
+window.thunar .path-bar,
+window.thunar .shortcuts-pane,
+window.thunar .sidebar,
+window.thunar .preview-pane,
+window.thunar .standard-view,
+window.thunar .standard-view .view,
+window.thunar .standard-view iconview,
+window.thunar .standard-view treeview.view {
+    background-color: transparent;
+    background-image: none;
+}
+
+/* Thunar side pane uses its own GtkTreeView below the sidebar container. */
+window.thunar .sidebar scrolledwindow,
+window.thunar .sidebar viewport,
+window.thunar .sidebar .view,
+window.thunar .sidebar treeview.view,
+window.thunar .shortcuts-pane scrolledwindow,
+window.thunar .shortcuts-pane viewport,
+window.thunar .shortcuts-pane .view,
+window.thunar .shortcuts-pane treeview.view {
+    background-color: transparent;
+    background-image: none;
+}

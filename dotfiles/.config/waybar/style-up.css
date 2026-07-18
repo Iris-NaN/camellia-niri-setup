@@ -1,0 +1,341 @@
+* {
+border: none;
+border-radius: 0;
+font-family: "Caskaydia Cove Nerd Font", "LXGW Bright Code NF GB", "/JetBrainsMono Nerd Font", "MesloLGS Nerd Font", "Font Awesome";
+font-weight: bold;
+font-size: 15px;
+min-height: 0;
+}
+
+/* 直接硬写颜色，不依赖 @define-color，防止解析失败 */
+window#waybar {
+  background: rgba(16, 19, 23, 0.75);
+  color: #efdac1;
+  border-radius: 0px;       /* 可选，看风格 */
+  margin: 0 0 0 0;     /* ← 左上右等距 */
+  padding: 0;
+}
+
+tooltip {
+background: rgba(16, 19, 23, 0.85);
+color: #efdac1;
+opacity: 1;
+border-radius: 15px;
+}
+
+tooltip label {
+font-size: 16px;
+color: #efdac1;
+}
+
+#workspaces button {
+padding: 2px;
+color: rgba(239, 218, 193, 0.7);
+margin-right: 5px;
+background-color: transparent;
+}
+
+#workspaces button.focused {
+color: #efdac1;
+}
+
+#workspaces button.urgent {
+color: #11111b;
+border: none;
+}
+
+#workspaces button:hover {
+color: #a79887;
+border: none;
+}
+
+#taskbar button {
+box-shadow: none;
+text-shadow: none;
+padding: 0px;
+border-radius: 9px;
+margin-top: 0;
+margin-bottom: 3px;
+padding-left: 3px;
+padding-right: 3px;
+animation: gradient_f 20s ease-in infinite;
+transition: all 0.5s cubic-bezier(0.55, -0.68, 0.48, 1.682);
+}
+
+#taskbar button.active {
+background: rgba(50, 72, 87, 0.55);
+margin-left: 3px;
+padding-left: 12px;
+padding-right: 12px;
+margin-right: 3px;
+animation: gradient_f 20s ease-in infinite;
+transition: all 0.3s cubic-bezier(0.55, -0.68, 0.48, 1.682);
+}
+
+#taskbar button:hover {
+background: rgba(48, 65, 80, 0.55);
+padding-left: 3px;
+padding-right: 3px;
+animation: gradient_f 20s ease-in infinite;
+transition: all 0.3s cubic-bezier(0.55, -0.68, 0.48, 1.682);
+}
+
+/* 统一：所有原来使用 @background 的模块改为半透明 */
+#custom-launch_rofi,
+#custom-lock_screen,
+#custom-light_dark,
+#custom-power_btn,
+#custom-weather,
+#custom-updater,
+#custom-system,
+#custom-cava,
+#window,
+#cpu,
+#disk,
+#idle_inhibitor,
+#custom-clipboard,
+#memory,
+#clock,
+#pulseaudio,
+#network,
+#tray,
+#temperature,
+#workspaces,
+#taskbar,
+#custom-notify,
+#battery,
+#mpris,
+#custom-nightlight,
+#hyprland-keyboard,
+#power-profiles-daemon,
+#backlight {
+background: rgba(16, 19, 23, 0.55);
+color: #efdac1;
+opacity: 1;
+padding: 0px 10px;
+margin: 0 0;
+}
+
+/* 保持透明背景的特殊模块 */
+#custom-theme,
+#custom-wallpaper {
+background: transparent;
+margin-right: 10px;
+font-size: 14px;
+}
+
+#custom-theme {
+margin-right: 15px;
+}
+
+#custom-system {
+margin: 0 10px;
+padding: 0 10px;
+padding-right: 15px;
+background: transparent;
+}
+
+#memory,
+#cpu,
+#disk,
+#temperature {
+margin-right: 10px;
+background-color: transparent;
+}
+
+#idle_inhibitor {
+font-size: 15px;
+padding-left: 10px;
+padding-right: 20px;
+background: rgba(16, 19, 23, 0.55);
+border-radius: 0 15px 15px 0;
+margin-right: 0px;
+}
+
+#hyprland-language {
+font-size: 15px;
+margin-right: 20px;
+}
+
+#mpris {
+background-color: rgba(16, 19, 23, 0.55);
+border-radius: 15px;
+padding-left: 15px;
+margin-left: 10px;
+}
+
+#custom-notify {
+border-radius: 0 0 0 0;
+padding-right: 15px;
+padding-left: 5px;
+}
+
+#custom-nightlight {
+border-radius: 0;
+}
+
+#battery {
+color: #a6e3a1;
+font-size: 14px;
+border-radius: 0 0 0 15px;
+}
+
+@keyframes blink {
+to {
+  background-color: #ffffff;
+  color: #333333;
+}
+}
+
+#battery.critical:not(.charging) {
+color: #f53c3c;
+animation-name: blink;
+animation-duration: 0.5s;
+animation-timing-function: linear;
+animation-iteration-count: infinite;
+animation-direction: alternate;
+}
+
+#custom-clipboard {
+border-radius: 15px;
+font-size: 14px;
+padding: 0 10px;
+margin-right: 10px;
+}
+
+#custom-wallpaper-change {
+font-size: 16px;
+padding-right: 20px;
+border-radius: 0 15px 15px 0;
+}
+
+#custom-power_btn {
+color: red;
+padding: 0 15px;
+padding-right: 20px;
+border-radius: 0 0 0 0;
+font-size: 15px;
+font-weight: bolder;
+}
+
+#taskbar {
+border-radius: 15px;
+}
+
+#network {
+background-color: rgba(16, 19, 23, 0.55);
+font-size: 15px;
+}
+
+#custom-updater {
+border-radius: 15px;
+padding: 0 15px;
+margin-right: 10px;
+}
+
+#backlight {
+padding: 0 5px;
+/*border-radius: 0 15px 15px 0;
+margin-right: 10px;*/
+border-radius: 0 0 0 0;
+margin-right: 0;
+}
+
+#custom-launch_rofi {
+padding: 0 15px;
+padding-right: 10px;
+font-size: 15px;
+border-radius: 15px 0 0 15px;
+color: #efdac1;
+margin-left: 3px;
+}
+
+#custom-lock_screen {
+border-radius: 15px;
+padding-right: 13px;
+}
+
+#temperature {
+border-radius: 0 15px 15px 0;
+}
+
+#tray {
+margin-left: 10px;
+background-color: rgba(16, 19, 23, 0.55);
+border-radius: 0 0 0 15px;
+}
+
+#custom-light_dark {
+border-radius: 15px 0 0 15px;
+margin-left: 10px;
+padding: 0 15px;
+}
+
+#custom-weather {
+border-radius: 15px;
+margin-left: 10px;
+background-color: transparent;
+}
+
+#temperature.critical {
+color: #e92d4d;
+}
+
+#workspaces {
+padding-top: 2px;
+padding-bottom: 2px;
+}
+
+#window {
+border-radius: 0 0 15px 0;
+padding-right: 15px;
+padding-left: 0;
+}
+
+#pulseaudio {
+background-color: rgba(16, 19, 23, 0.55);
+/*border-radius: 15px 0 0 15px;*/
+
+border-radius: 0 0 0 0;
+padding-left: 10px;
+}
+
+#clock {
+border-radius: 0 0 15px 15px;
+padding: 0 20px;
+font-size: 15px;
+}
+
+#pulseaudio.microphone {
+padding-right: 15px;
+border-radius: 0;
+}
+
+#power-profiles-daemon {
+background-color: rgba(16, 19, 23, 0.55);
+border-radius: 0 0 15px 0;
+padding-right: 15px;
+padding-left: 0;
+}
+
+#power-profiles-daemon.performance {
+color: #fab387;
+font-size: 15px;
+padding-right: 20px;
+}
+
+#power-profiles-daemon.balanced {
+color: #a6e3a1;
+font-size: 15px;
+padding-right: 20px;
+}
+
+#power-profiles-daemon.power-saver {
+color: #89dceb;
+font-size: 20px;
+}
+
+#custom-cava {
+margin-left: 10px;
+border-radius: 15px;
+}

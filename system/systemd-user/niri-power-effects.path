@@ -1,0 +1,10 @@
+[Unit]
+Description=Watch the main Niri config for power-effect regeneration
+
+[Path]
+PathChanged=%h/.config/niri/config.kdl
+PathChanged=%h/.config/niri/conf.d/binds.kdl
+Unit=niri-power-effects-refresh.service
+
+[Install]
+WantedBy=default.target

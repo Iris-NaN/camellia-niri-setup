@@ -1,0 +1,102 @@
+binds {
+
+    // applications
+    Mod+T hotkey-overlay-title="打开终端" { spawn-sh "kitty"; }
+    Mod+D hotkey-overlay-title="打开应用启动器" { spawn-sh "fuzzel"; }
+    Mod+Shift+D hotkey-overlay-title=null { spawn-sh "~/.config/niri/scripts/rofi-emoji.sh"; }
+    Mod+C hotkey-overlay-title="打开文件管理器" { spawn-sh "thunar"; }
+    Mod+E hotkey-overlay-title="打开浏览器" { spawn-sh "firefox-developer-edition"; }
+    Mod+L hotkey-overlay-title="锁定屏幕" { spawn "swaylock"; }
+    Mod+Shift+Slash hotkey-overlay-title="显示快捷键帮助" { spawn-sh "~/.config/niri/scripts/hotkey-help.sh"; }
+
+    // Backlight
+    XF86MonBrightnessUp   allow-when-locked=true hotkey-overlay-title=null { spawn-sh "~/.config/niri/scripts/brightness.sh up" ; }
+    XF86MonBrightnessDown allow-when-locked=true hotkey-overlay-title=null { spawn-sh "~/.config/niri/scripts/brightness.sh down" ; }
+
+    // Audio (cap output volume at 100%)
+    XF86AudioRaiseVolume  allow-when-locked=true hotkey-overlay-title=null { spawn-sh "wpctl set-volume -l 1.0 @DEFAULT_AUDIO_SINK@ 0.05+"; }
+    XF86AudioLowerVolume  allow-when-locked=true hotkey-overlay-title=null { spawn-sh "wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.05-"; }
+    XF86AudioMute         allow-when-locked=true hotkey-overlay-title=null { spawn-sh "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"; }
+    XF86AudioMicMute      allow-when-locked=true hotkey-overlay-title=null { spawn-sh "wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"; }
+
+    // Media
+    XF86AudioPlay         allow-when-locked=true hotkey-overlay-title=null { spawn-sh "playerctl play-pause"; }
+    XF86AudioPause        allow-when-locked=true hotkey-overlay-title=null { spawn-sh "playerctl pause"; }
+    XF86AudioNext         allow-when-locked=true hotkey-overlay-title=null { spawn-sh "playerctl next"; }
+    XF86AudioPrev         allow-when-locked=true hotkey-overlay-title=null { spawn-sh "playerctl previous"; }
+
+    // Windows and Columns
+    Mod+Q hotkey-overlay-title="关闭窗口" { close-window; }
+    Mod+X hotkey-overlay-title="打开电源菜单" { spawn-sh "wlogout -b 4 --layout ~/.config/wlogout/layout --css ~/.config/wlogout/style.css"; }
+    Mod+V hotkey-overlay-title="切换浮动窗口" { toggle-window-floating; }
+    Mod+F hotkey-overlay-title="最大化当前列" { maximize-column; }
+    Mod+Shift+F hotkey-overlay-title="窗口全屏" { fullscreen-window; }
+    // Seamless focus: cross to the next monitor at a screen edge
+    Mod+Left hotkey-overlay-title="焦点向左（可跨屏）" { focus-column-or-monitor-left; }
+    Mod+Right hotkey-overlay-title="焦点向右（可跨屏）" { focus-column-or-monitor-right; }
+    Mod+Down hotkey-overlay-title="焦点向下（可跨屏）" { focus-window-or-monitor-down; }
+    Mod+Up hotkey-overlay-title="焦点向上（可跨屏）" { focus-window-or-monitor-up; }
+
+    // Seamless movement: move a column across horizontal monitor edges
+    Mod+Ctrl+Left hotkey-overlay-title="当前列向左移动（可跨屏）" { move-column-left-or-to-monitor-left; }
+    Mod+Ctrl+Right hotkey-overlay-title="当前列向右移动（可跨屏）" { move-column-right-or-to-monitor-right; }
+    Mod+Ctrl+Down hotkey-overlay-title=null { move-window-down; }
+    Mod+Ctrl+Up hotkey-overlay-title=null { move-window-up; }
+    Mod+Home hotkey-overlay-title=null { focus-column-first; }
+    Mod+End hotkey-overlay-title=null { focus-column-last; }
+    Mod+Ctrl+Home hotkey-overlay-title=null { move-column-to-first; }
+    Mod+Ctrl+End hotkey-overlay-title=null { move-column-to-last; }
+    Mod+Shift+L hotkey-overlay-title=null { set-column-width "-10%"; }
+    Mod+Shift+H hotkey-overlay-title=null { set-column-width "+10%"; }
+    Mod+Shift+K hotkey-overlay-title=null { set-window-height "-10%"; }
+    Mod+Shift+J hotkey-overlay-title=null { set-window-height "+10%"; }
+    Mod+BracketLeft hotkey-overlay-title=null { consume-or-expel-window-left; }
+    Mod+BracketRight hotkey-overlay-title=null { consume-or-expel-window-right; }
+    Mod+Comma hotkey-overlay-title=null { consume-window-into-column; }
+    Mod+Period hotkey-overlay-title=null { expel-window-from-column; }
+    // Vertical monitor layouts still need an explicit column move
+    Mod+Ctrl+Shift+Up hotkey-overlay-title=null { move-column-to-monitor-up; }
+    Mod+Ctrl+Shift+Down hotkey-overlay-title=null { move-column-to-monitor-down; }
+
+    // Wallpapers: choose or quickly randomize
+    Mod+W hotkey-overlay-title=null { spawn-sh "$HOME/.config/niri/scripts/WallpaperSelect.sh thm1"; }
+    Mod+Shift+W hotkey-overlay-title=null { spawn-sh "$HOME/.config/niri/scripts/Wallpaper.sh"; }
+
+    // Workspaces
+    Mod+Page_Down hotkey-overlay-title="下一个工作区" { focus-workspace-down; }
+    Mod+Page_Up hotkey-overlay-title="上一个工作区" { focus-workspace-up; }
+    Mod+Ctrl+Page_Down hotkey-overlay-title="当前列移到下一个工作区" { move-column-to-workspace-down; }
+    Mod+Ctrl+Page_Up hotkey-overlay-title="当前列移到上一个工作区" { move-column-to-workspace-up; }
+    Mod+1 hotkey-overlay-title=null { focus-workspace 1; }
+    Mod+2 hotkey-overlay-title=null { focus-workspace 2; }
+    Mod+3 hotkey-overlay-title=null { focus-workspace 3; }
+    Mod+4 hotkey-overlay-title=null { focus-workspace 4; }
+    Mod+5 hotkey-overlay-title=null { focus-workspace 5; }
+    Mod+6 hotkey-overlay-title=null { focus-workspace 6; }
+    Mod+7 hotkey-overlay-title=null { focus-workspace 7; }
+    Mod+8 hotkey-overlay-title=null { focus-workspace 8; }
+    Mod+9 hotkey-overlay-title=null { focus-workspace 9; }
+    Mod+0 hotkey-overlay-title=null { focus-workspace 10; }
+    Mod+Ctrl+1 hotkey-overlay-title=null { move-column-to-workspace 1; }
+    Mod+Ctrl+2 hotkey-overlay-title=null { move-column-to-workspace 2; }
+    Mod+Ctrl+3 hotkey-overlay-title=null { move-column-to-workspace 3; }
+    Mod+Ctrl+4 hotkey-overlay-title=null { move-column-to-workspace 4; }
+    Mod+Ctrl+5 hotkey-overlay-title=null { move-column-to-workspace 5; }
+    Mod+Ctrl+6 hotkey-overlay-title=null { move-column-to-workspace 6; }
+    Mod+Ctrl+7 hotkey-overlay-title=null { move-column-to-workspace 7; }
+    Mod+Ctrl+8 hotkey-overlay-title=null { move-column-to-workspace 8; }
+    Mod+Ctrl+9 hotkey-overlay-title=null { move-column-to-workspace 9; }
+    Mod+Ctrl+0 hotkey-overlay-title=null { move-column-to-workspace 10; }
+    Mod+A hotkey-overlay-title="切换总览" { toggle-overview; }
+
+    // Utilities and low-frequency system management
+    Mod+Alt+C hotkey-overlay-title=null { spawn-sh "~/.config/niri/scripts/cliphist.sh c"; }
+    Mod+Alt+B hotkey-overlay-title=null { spawn-sh "~/.config/niri/scripts/waybar-reload.sh --reload"; }
+    Mod+Alt+M hotkey-overlay-title=null { spawn-sh "~/.config/niri/scripts/toggle-bt-profile.sh"; }
+
+    // Screenshots
+    Print hotkey-overlay-title=null { screenshot-screen; }
+    Shift+Print hotkey-overlay-title=null { screenshot; }
+    Ctrl+Print hotkey-overlay-title=null { screenshot-window; }
+
+}

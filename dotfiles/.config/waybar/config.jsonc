@@ -1,0 +1,45 @@
+{
+    "include": [
+        "$HOME/.config/waybar/modules/modules-main.jsonc",
+        "$HOME/.config/waybar/modules/modules-groups.jsonc",
+        "$HOME/.config/waybar/modules/modules-custom.jsonc",
+    ],
+
+    "layer": "top",
+    "position": "top",
+    "mod": "dock",
+    "exclusive": true,
+    "passthrough": false,
+    "gtk-layer-shell": true,
+    "reload_style_on_change": true,
+    "height": 40,
+    "margin-top": 0,
+    "margin-left": 0,
+    "margin-right": 0,
+
+    "modules-left": [
+        //"custom/launch_rofi", 
+        "niri/workspaces",
+        "niri/window",
+        "tray",
+        "custom/notify",
+        "power-profiles-daemon"
+        // "idle_inhibitor",
+    ],
+
+    "modules-center": [
+        "clock",
+    ],
+
+    "modules-right": [
+        //"custom/updater", 
+        //"custom/clipboard",
+        "battery", 
+        "backlight",  
+        "pulseaudio", 
+        "pulseaudio#microphone", 
+        "network", 
+        // "group/network", 
+        "custom/power_btn"
+    ],
+}
