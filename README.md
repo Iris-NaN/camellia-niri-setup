@@ -94,6 +94,27 @@ virt-xml VM_NAME --edit --video model.acceleration.accel3d=yes
 virt-xml VM_NAME --edit --graphics gl.enable=yes,listen=none
 ```
 
+Fully power the guest off and start it again; rebooting only the guest kernel
+does not recreate the virtual GPU. Recent libvirt versions record the selected
+Virtio frontend in a `device` attribute. For an existing VM, inspect the
+inactive XML:
+
+```bash
+virsh dumpxml --inactive VM_NAME
+```
+
+If the accelerated video model is still recorded as `device='virtio-vga'`,
+change that attribute to `device='virtio-vga-gl'` with `virsh edit VM_NAME`,
+while keeping `<acceleration accel3d='yes'/>`. After starting the VM, verify the
+guest kernel rather than trusting the checkbox alone:
+
+```bash
+journalctl -b -k | grep -E 'features:|cap sets'
+```
+
+A working VirGL device reports `features: +virgl` and at least one capability
+set. `features: -virgl` means QEMU still created a 2D-only Virtio GPU.
+
 The host needs QEMU, Mesa and `virglrenderer`. If the Niri journal contains
 `software EGL renderers are skipped` or `no allocator available for device`,
 the VM is still using software rendering. Some framebuffer screenshot tools

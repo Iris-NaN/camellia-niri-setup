@@ -89,6 +89,26 @@ virt-xml VM_NAME --edit --video model.acceleration.accel3d=yes
 virt-xml VM_NAME --edit --graphics gl.enable=yes,listen=none
 ```
 
+修改后应将客体完整关机再启动；只重启客体内核不会重新创建虚拟显卡。较新的
+libvirt 会在 `device` 属性中记录实际选择的 Virtio 前端。对于既有虚拟机，先检查
+非活动 XML：
+
+```bash
+virsh dumpxml --inactive VM_NAME
+```
+
+如果启用加速后的显卡模型仍记录为 `device='virtio-vga'`，请用
+`virsh edit VM_NAME` 将该属性改为 `device='virtio-vga-gl'`，同时保留
+`<acceleration accel3d='yes'/>`。启动虚拟机后，应验证客体内核，而不是只相信
+管理器里的 3D 复选框：
+
+```bash
+journalctl -b -k | grep -E 'features:|cap sets'
+```
+
+正常工作的 VirGL 设备会显示 `features: +virgl`，并且至少有一个 capability set；
+`features: -virgl` 表示 QEMU 仍然创建了仅支持 2D 的 Virtio GPU。
+
 宿主机需要安装 QEMU、Mesa 和 `virglrenderer`。如果 Niri 日志出现
 `software EGL renderers are skipped` 或 `no allocator available for device`，说明
 虚拟机仍在使用软件渲染。启用 SPICE GL 后，一些传统 framebuffer 截图工具会截到
