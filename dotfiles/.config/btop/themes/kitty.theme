@@ -26,20 +26,20 @@ theme[cpu_mid]="#B0C94C"
 theme[cpu_end]="#D2CE4B"
 
 theme[free_start]="#94A35B"
-theme[free_mid]=""
-theme[free_end]=""
+theme[free_mid]="#9EC048"
+theme[free_end]="#B0C94C"
 
 theme[cached_start]="#9EC048"
-theme[cached_mid]=""
-theme[cached_end]=""
+theme[cached_mid]="#B0C94C"
+theme[cached_end]="#D2CE4B"
 
 theme[available_start]="#A4BCA4"
-theme[available_mid]=""
-theme[available_end]=""
+theme[available_mid]="#dbe3c8"
+theme[available_end]="#dbe3c8"
 
 theme[used_start]="#D2CE4B"
-theme[used_mid]=""
-theme[used_end]=""
+theme[used_mid]="#B0C94C"
+theme[used_end]="#6F974C"
 
 theme[download_start]="#94A35B"
 theme[download_mid]="#A4BCA4"

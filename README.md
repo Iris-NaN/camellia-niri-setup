@@ -149,7 +149,9 @@ generated from the main configuration automatically.
 
 Put wallpapers in `~/Pictures/Wallpapers`. One default image is bundled. The
 existing Pywal workflow remains the color source; the installer recreates its
-Waybar, Kitty, Rofi, SwayNC and Wlogout links for the target user's home.
+Waybar, Kitty, Rofi, SwayNC and Wlogout links for the target user's home. It
+also regenerates the complete btop theme whenever the wallpaper palette
+changes.
 
 ## What is intentionally excluded
 

@@ -50,6 +50,14 @@ else
     printf 'Skipping KDL validation: niri is not installed.\n'
 fi
 
+if command -v fuzzel >/dev/null; then
+    printf 'Validating Fuzzel configuration...\n'
+    LC_ALL=C.UTF-8 \
+        fuzzel --config="$root_dir/dotfiles/.config/fuzzel/fuzzel.ini" --check-config
+else
+    printf 'Skipping Fuzzel validation: fuzzel is not installed.\n'
+fi
+
 if (( status )); then
     exit 1
 fi

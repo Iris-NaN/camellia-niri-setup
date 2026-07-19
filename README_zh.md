@@ -140,7 +140,8 @@ niri msg outputs
 
 将壁纸放入 `~/Pictures/Wallpapers`。项目内附带一张默认图片。现有的 Pywal 工作流
 仍然作为配色来源；安装程序会在目标用户的主目录中重新创建 Waybar、Kitty、
-Rofi、SwayNC 和 Wlogout 的相关链接。
+Rofi、SwayNC 和 Wlogout 的相关链接，并在壁纸配色变化时重新生成完整的 btop
+主题。
 
 ## 有意排除的内容
 

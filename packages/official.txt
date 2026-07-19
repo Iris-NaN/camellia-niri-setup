@@ -52,6 +52,7 @@ fcitx5-qt
 fcitx5-material-color
 
 # Basic desktop and command-line tools
+zsh
 networkmanager
 network-manager-applet
 pipewire
