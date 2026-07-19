@@ -1,5 +1,7 @@
 # Camellia Niri Setup
 
+[English](README.md) | [简体中文](README_zh.md)
+
 Reproduce this Arch Linux Niri desktop on another computer with a self-contained,
 auditable installer. The project is inspired by `niriconf`, but avoids cached
 state, destructive uninstall steps, and machine-specific output names.
