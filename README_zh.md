@@ -21,8 +21,8 @@
 
 ## 安装
 
-目前仅面向 Arch Linux。请先安装 `yay` 或 `paru`，因为有四个外观或桌面相关
-的软件包来自 AUR。
+目前仅面向 Arch Linux。请先安装 `yay` 或 `paru`，因为有五个外观或桌面相关
+的软件包来自 AUR。安装程序会自动安装 AUR 构建所需的 `base-devel`。
 
 ```bash
 git clone https://github.com/Iris-NaN/camellia-niri-setup.git
@@ -59,6 +59,40 @@ cd camellia-niri-setup
 - 使用 `--no-sddm-theme` 保留当前登录主题。
 - Niri 专用的用户服务绑定到 `niri.service`，不会在 Plasma 会话或纯文本登录中
   启动。
+- AUR 外观或辅助包安装失败时会给出警告，但不会阻止用户配置、SDDM 和系统服务
+  继续部署。
+
+如果 AUR 软件包使用的 GitHub 下载被阻断，可以为安装程序传入可信的 HTTPS
+代理。Git 和 curl 可能读取不同的环境变量，因此同时设置两种写法：
+
+```bash
+https_proxy=http://127.0.0.1:7890 \
+HTTPS_PROXY=http://127.0.0.1:7890 \
+./install.sh
+```
+
+在虚拟机中，`127.0.0.1` 指向客体自身。如果代理运行在 libvirt 宿主机上，应改用
+宿主机的网桥地址（通常是 `192.168.122.1`），并让代理监听该接口。请将访问范围
+限制在虚拟机网络内，不要在其他接口上暴露无需认证的代理。
+
+不要关闭 TLS 验证，也不要随意把 PKGBUILD 的源码地址替换为不可信的下载代理；
+AUR 源码仍应正常通过哈希值或签名验证。
+
+## QEMU/KVM 虚拟机
+
+Niri 需要可用的硬件 EGL/GBM 渲染器，并且会主动拒绝 llvmpipe/softpipe 软件 EGL
+渲染器。使用 libvirt 虚拟机时，请选择 Virtio 显卡、开启 3D 加速，并为 SPICE
+显示开启 OpenGL。虚拟机关机后，可用以下等价命令配置：
+
+```bash
+virt-xml VM_NAME --edit --video model.acceleration.accel3d=yes
+virt-xml VM_NAME --edit --graphics gl.enable=yes,listen=none
+```
+
+宿主机需要安装 QEMU、Mesa 和 `virglrenderer`。如果 Niri 日志出现
+`software EGL renderers are skipped` 或 `no allocator available for device`，说明
+虚拟机仍在使用软件渲染。启用 SPICE GL 后，一些传统 framebuffer 截图工具会截到
+黑图，即使 virt-manager 中的实际桌面显示正常。
 
 ## 显示器布局
 

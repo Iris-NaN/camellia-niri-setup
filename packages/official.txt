@@ -3,7 +3,6 @@ niri
 xwayland-satellite
 waybar
 swaync
-swaylock-effects
 swayidle
 fuzzel
 rofi

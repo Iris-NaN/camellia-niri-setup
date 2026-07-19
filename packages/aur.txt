@@ -1,4 +1,5 @@
 # Required by the copied configuration but not in the official repositories.
+swaylock-effects
 wlogout
 mpvpaper
 layan-gtk-theme-git

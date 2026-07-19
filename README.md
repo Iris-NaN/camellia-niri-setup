@@ -21,8 +21,9 @@ Exact package lists live in `packages/official.txt` and `packages/aur.txt`.
 
 ## Install
 
-This currently targets Arch Linux. Install `yay` or `paru` first because four
-appearance/desktop packages come from the AUR.
+This currently targets Arch Linux. Install `yay` or `paru` first because five
+appearance/desktop packages come from the AUR. The installer installs the
+`base-devel` prerequisite automatically.
 
 ```bash
 git clone https://github.com/Iris-NaN/camellia-niri-setup.git
@@ -59,6 +60,45 @@ The default is deliberately conservative:
 - Use `--no-sddm-theme` to keep the current login theme.
 - Niri-specific user services are linked to `niri.service`; they do not start
   inside Plasma or a text login.
+- AUR appearance/helper failures are reported but do not prevent user configs,
+  SDDM or system services from being deployed.
+
+If GitHub downloads used by AUR packages are blocked, pass a trusted HTTPS
+proxy to the installer. Both spellings are set because Git and curl may consult
+different environment variables:
+
+```bash
+https_proxy=http://127.0.0.1:7890 \
+HTTPS_PROXY=http://127.0.0.1:7890 \
+./install.sh
+```
+
+Inside a VM, `127.0.0.1` is the guest itself. If the proxy runs on the libvirt
+host, use the host-side bridge address instead (commonly `192.168.122.1`) and
+make sure the proxy listens on that interface. Restrict it to the VM network;
+do not expose an unauthenticated proxy on other interfaces.
+
+Do not disable TLS verification or replace PKGBUILD source URLs with an
+untrusted download proxy. AUR source hashes and signatures should still be
+verified normally.
+
+## QEMU/KVM virtual machines
+
+Niri requires a working hardware EGL/GBM renderer and deliberately rejects
+llvmpipe/softpipe software EGL renderers. For a libvirt VM, use a Virtio video
+device with 3D acceleration and enable OpenGL on the SPICE display. With the VM
+shut down, the equivalent commands are:
+
+```bash
+virt-xml VM_NAME --edit --video model.acceleration.accel3d=yes
+virt-xml VM_NAME --edit --graphics gl.enable=yes,listen=none
+```
+
+The host needs QEMU, Mesa and `virglrenderer`. If the Niri journal contains
+`software EGL renderers are skipped` or `no allocator available for device`,
+the VM is still using software rendering. Some framebuffer screenshot tools
+show a black image with SPICE GL even when virt-manager displays the desktop
+correctly.
 
 ## Display layout
 
