@@ -90,8 +90,6 @@
         "disable-scroll": true,
         "all-outputs": true,
         "on-click": "activate",
-        "on-scroll-up": "nirictl dispatch workspace e-1",
-        "on-scroll-down": "nirictl dispatch workspace e+1",
         "format": "{icon}",
         // "format-icons": {
             // "1": "",
@@ -133,8 +131,6 @@
         "sort-by-number": true,
         "show-special": false,
         "on-click": "activate",
-        "on-scroll-up": "nirictl dispatch workspace e+1",
-        "on-scroll-down": "nirictl dispatch workspace e-1",
         // "persistent-workspaces": {
         //     "*": 5
         //   },

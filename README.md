@@ -1,6 +1,6 @@
 # Camellia Niri Setup
 
-Reproduce this Arch Linux Niri desktop on another computer with a small,
+Reproduce this Arch Linux Niri desktop on another computer with a self-contained,
 auditable installer. The project is inspired by `niriconf`, but avoids cached
 state, destructive uninstall steps, and machine-specific output names.
 
@@ -23,8 +23,9 @@ This currently targets Arch Linux. Install `yay` or `paru` first because four
 appearance/desktop packages come from the AUR.
 
 ```bash
-git clone <your-repository-url> camellia-niri-setup
+git clone https://github.com/Iris-NaN/camellia-niri-setup.git
 cd camellia-niri-setup
+./scripts/verify.sh
 ./install.sh --dry-run
 ./install.sh
 ```
@@ -43,7 +44,19 @@ Useful partial modes:
 ./install.sh --packages-only
 ./install.sh --configs-only
 ./install.sh --no-system
+./install.sh --no-sddm-theme
+./install.sh --locale zh_CN.UTF-8
+./install.sh --replace-configs
 ```
+
+The default is deliberately conservative:
+
+- The existing system locale is preserved unless `--locale` is provided.
+- Existing managed config directories are merged after backup. Use
+  `--replace-configs` for an exact replacement.
+- Use `--no-sddm-theme` to keep the current login theme.
+- Niri-specific user services are linked to `niri.service`; they do not start
+  inside Plasma or a text login.
 
 ## Display layout
 
@@ -56,7 +69,18 @@ niri msg outputs
 
 Use `profiles/outputs-external-top-internal-bottom.kdl` as a reference if the
 new machine also needs an external display above the internal panel. Copy and
-adjust its output blocks in both `config.kdl` and `config-power-saver.kdl`.
+adjust its output blocks in `config.kdl`. The power-saver configuration is
+generated from the main configuration automatically.
+
+## Hardware adaptation
+
+- The low-battery service is installed only when a battery is detected, and it
+  discovers the UPower battery path instead of assuming `BAT0` or `BAT1`.
+- Laptop backlights use `brightnessctl`; external monitors use `ddcutil`.
+- For multiple DDC/CI monitors, set `DDCUTIL_DISPLAY` to the desired ddcutil
+  display number before invoking the brightness helper.
+- Battery and backlight Waybar modules hide themselves when the corresponding
+  hardware is unavailable.
 
 ## Wallpapers and dynamic colors
 
@@ -74,8 +98,6 @@ Waybar, Kitty, Rofi, SwayNC and Wlogout links for the target user's home.
 
 ## Verification
 
-```bash
-bash -n install.sh scripts/*.sh
-niri validate -c dotfiles/.config/niri/config.kdl
-niri validate -c dotfiles/.config/niri/config-power-saver.kdl
-```
+Run `./scripts/verify.sh`. It checks every shell script, verifies that referenced
+Niri helper scripts exist, regenerates the power-saver config, and validates both
+KDL files when `niri` is installed.

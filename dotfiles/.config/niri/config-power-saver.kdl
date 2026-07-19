@@ -27,6 +27,7 @@ input {
 
 
 // Outputs intentionally use Niri's automatic layout for portability.
+// Copy a profile from this repository's profiles/ directory when needed.
 
 
 //---------------------- decoration ----------------------\\
@@ -67,7 +68,6 @@ layout {
 
 
 //---------------------- startup ----------------------\\
-spawn-at-startup "/usr/bin/kanshi"
 spawn-at-startup "waybar"
 spawn-at-startup "swaync"
 spawn-at-startup "fcitx5" "-d"
@@ -121,7 +121,7 @@ window-rule {
 
 
 window-rule {
-    match app-id="firefox-developer-edition "
+    match app-id="firefox-developer-edition"
     match app-id="code"
     match app-id="dev.zed.Zed"
     default-column-width { proportion 1.0; }
@@ -241,8 +241,7 @@ hotkey-overlay {
 
 //---------------------- environment ----------------------\\
 environment {
-    QT_QPA_PLATFORMTHEME "qt5ct:qt6ct"
-    QT_QPA_PLATFORM_THEME "qt5ct"
+    QT_QPA_PLATFORMTHEME "qt6ct"
     QT_QPA_PLATFORM "wayland;xcb"
     QT_ICON_THEME "Papirus-Dark"
     XDG_CURRENT_DESKTOP "niri"

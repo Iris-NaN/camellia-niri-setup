@@ -1,12 +1,11 @@
 [Unit]
 Description=Switch to power saver on low battery
+PartOf=graphical-session.target
 After=graphical-session.target power-profiles-daemon.service upower.service
+Requisite=graphical-session.target
 
 [Service]
 Type=simple
 ExecStart=%h/.config/niri/scripts/low-battery-profile.sh
 Restart=on-failure
 RestartSec=5
-
-[Install]
-WantedBy=default.target

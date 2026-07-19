@@ -27,7 +27,7 @@ if [ $? -eq 0 ]; then
     # updating the system
     if [ -n "$(command -v pacman)" ]; then
         aur=$(command -v yay || command -v paru)
-        "$aur" -Syyu --noconfirm
+        "$aur" -Syu
     elif [ -n "$(command -v dnf)" ]; then
         sudo dnf update && sudo dnf upgrade -y
     elif [ -n "$(command -v zypper)" ]; then

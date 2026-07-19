@@ -1,101 +1,70 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
-iDIR="$HOME/.config/niri/icons/brightness"
+set -u
+
+icon_dir="$HOME/.config/niri/icons/brightness"
 notification_timeout=1000
-
-if ls /sys/class/power_supply/ 2>/dev/null | grep -q '^BAT[0-9]\+'; then
-  device="Laptop"
-
-  # get brightness
-  get_backlight() {
-    echo $(brightnessctl -m | cut -d, -f4)
-  }
-
-  # get icon
-  get_icon() {
-    current=$(get_backlight | sed 's/%//')
-    icon="$iDIR/brightness-${current}.png"
-
-  }
-else
-  device="Desktop"
-
-  # Get brightness
-  get_backlight() {
-    echo $(ddcutil --sleep-multiplier=0 getvcp 10 | awk '{print $9}' | tr -d ',')
-  }
+ddc_args=(--sleep-multiplier=0)
+if [[ -n ${DDCUTIL_DISPLAY:-} ]]; then
+    ddc_args+=(--display "$DDCUTIL_DISPLAY")
 fi
 
-# Notify using swaync
 notify_user() {
-  notify-send -e -h string:x-canonical-private-synchronous:brightness_notif -u low -i "$icon" "Brightness : $current%"
+    local current=$1 bucket icon
+    bucket=$(( (current + 5) / 10 * 10 ))
+    (( bucket > 100 )) && bucket=100
+    (( bucket < 0 )) && bucket=0
+    icon="$icon_dir/brightness-${bucket}.png"
+    notify-send -e -t "$notification_timeout" \
+        -h string:x-canonical-private-synchronous:brightness_notif \
+        -u low -i "$icon" "Brightness: ${current}%"
 }
 
-# Change brightness
-change_backlight() {
-  if [[ "$device" == "Laptop" ]]; then
-    brightnessctl set "$1" -n && get_icon && notify_user
-  elif [[ "$device" == "Desktop" && -n "$(command -v ddcutil)" ]]; then
-    # Get current brightness once
-    current=$(ddcutil --sleep-multiplier=0 getvcp 10 | awk '{print $9}' | tr -d ',')
-    current=${current%\%}
-    if ! [[ "$current" =~ ^[0-9]+$ ]]; then
-      current=50
-    fi
+if compgen -G '/sys/class/backlight/*' >/dev/null; then
+    get_brightness() {
+        brightnessctl -m | awk -F, 'NR == 1 { gsub(/%/, "", $4); print $4 }'
+    }
 
-    # Calculate new brightness
-    if [[ "$1" == +* ]]; then
-      new=$((current + ${1#+}))
-    elif [[ "$1" == -* ]]; then
-      new=$((current - ${1#-}))
-    else
-      new=$1
-    fi
+    change_brightness() {
+        brightnessctl set "$1" -n >/dev/null
+        local current
+        current=$(get_brightness)
+        [[ "$current" =~ ^[0-9]+$ ]] && notify_user "$current"
+    }
 
-    # Clamp between 0-100
-    ((new > 100)) && new=100
-    ((new < 0)) && new=0
-
-    # Set brightness
-    ddcutil --sleep-multiplier=0 setvcp 10 "$new"
-
-    # Reuse value
-    current=$new
-    icon="$iDIR/brightness-${current}.png"
-
-    notify_user
-  fi
-}
-
-# Execute accordingly
-if [[ "$device" == "Laptop" ]]; then
-  case "$1" in
-  "--get")
-    get_backlight
-    ;;
-  "up")
-    change_backlight "+10%"
-    ;;
-  "down")
-    change_backlight "10%-"
-    ;;
-  *)
-    get_backlight
-    ;;
-  esac
+    case ${1:---get} in
+        --get) get_brightness ;;
+        up) change_brightness '+10%' ;;
+        down) change_brightness '10%-' ;;
+        *) printf 'Usage: %s {--get|up|down}\n' "$0" >&2; exit 64 ;;
+    esac
 else
-  case "$1" in
-  "--get")
-    get_backlight
-    ;;
-  "up")
-    change_backlight "+10"
-    ;;
-  "down")
-    change_backlight "-10"
-    ;;
-  *)
-    get_backlight
-    ;;
-  esac
+    if ! command -v ddcutil >/dev/null; then
+        notify-send -u critical "Brightness" "ddcutil is required for external monitors"
+        exit 1
+    fi
+
+    get_brightness() {
+        ddcutil "${ddc_args[@]}" getvcp 10 2>/dev/null |
+            sed -nE 's/.*current value = *([0-9]+).*/\1/p' |
+            head -n 1
+    }
+
+    change_brightness() {
+        local delta=$1 current new
+        current=$(get_brightness)
+        [[ "$current" =~ ^[0-9]+$ ]] || current=50
+        new=$(( current + delta ))
+        (( new > 100 )) && new=100
+        (( new < 0 )) && new=0
+        ddcutil "${ddc_args[@]}" setvcp 10 "$new" >/dev/null
+        notify_user "$new"
+    }
+
+    case ${1:---get} in
+        --get) get_brightness ;;
+        up) change_brightness 10 ;;
+        down) change_brightness -10 ;;
+        *) printf 'Usage: %s {--get|up|down}\n' "$0" >&2; exit 64 ;;
+    esac
 fi

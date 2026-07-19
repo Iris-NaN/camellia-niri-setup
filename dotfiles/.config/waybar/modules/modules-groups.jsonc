@@ -80,8 +80,7 @@
         },
 
         "modules": [
-            "custom/wallpaper",
-            "custom/theme"
+            "custom/wallpaper"
         ]
     },
 
@@ -98,7 +97,6 @@
         "modules": [
             "power-profiles-daemon",
             "idle_inhibitor", 
-            "custom/nightlight", 
             "custom/clipboard", 
         ]
     }

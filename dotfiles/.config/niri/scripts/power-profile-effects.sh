@@ -2,8 +2,9 @@
 
 set -u
 
-normal_config="$HOME/.config/niri/config.kdl"
-saver_config="$HOME/.config/niri/config-power-saver.kdl"
+config_dir=${NIRI_CONFIG_DIR:-$HOME/.config/niri}
+normal_config="$config_dir/config.kdl"
+saver_config="$config_dir/config-power-saver.kdl"
 state_file="${XDG_RUNTIME_DIR:-/tmp}/niri-power-effects.state"
 
 generate_saver_config() {
@@ -48,16 +49,31 @@ generate_saver_config() {
             next
         }
 
+        /^[[:space:]]*shadow[[:space:]]*\{/ {
+            shadow_depth = count($0, "[{]") - count($0, "[}]")
+            in_shadow = 1
+            print
+            next
+        }
+
+        in_shadow {
+            if ($0 ~ /^[[:space:]]*on[[:space:]]*$/)
+                sub(/on/, "off")
+            shadow_depth += count($0, "[{]") - count($0, "[}]")
+            print
+            if (shadow_depth <= 0)
+                in_shadow = 0
+            next
+        }
+
         {
             gsub(/blur true/, "blur false")
             gsub(/opacity 0\.92/, "opacity 1.0")
-            if ($0 ~ /^[[:space:]]*on[[:space:]]*$/)
-                sub(/on/, "off")
             print
         }
     ' "$normal_config" > "$temporary"
 
-    if ! niri validate -c "$temporary" >/dev/null 2>&1; then
+    if command -v niri >/dev/null && ! niri validate -c "$temporary" >/dev/null 2>&1; then
         rm -f "$temporary"
         notify-send -u critical "Niri power effects" "Generated power-saver config is invalid"
         return 1
@@ -71,10 +87,10 @@ apply_profile() {
 
     if [[ "$profile" == "power-saver" ]]; then
         generate_saver_config || return 1
-        niri msg action load-config-file --path "$saver_config" >/dev/null
+        niri msg action load-config-file --path "$saver_config" >/dev/null || return 1
         notify-send -u low "Power saver" "Blur, shadows and animations disabled"
     else
-        niri msg action load-config-file --path "$normal_config" >/dev/null
+        niri msg action load-config-file --path "$normal_config" >/dev/null || return 1
         notify-send -u low "Power profile" "Visual effects restored"
     fi
 }

@@ -32,7 +32,7 @@
             "dnd-inhibited-none": ""
         },
         "return-type": "json",
-        "exec-if": "which swaync-client",
+        "exec-if": "sh -c 'command -v swaync-client >/dev/null'",
         "exec": "swaync-client -swb",
         "on-click": "sleep 0.1 && swaync-client -t -sw",
         "on-click-right": "swaync-client -d -sw",
@@ -68,43 +68,12 @@
         "tooltip-format": "You have {} items copied"
     },
 
-   "custom/weather": {
-        "format": "  {}",
-        "format-alt": "{alt}: {}",
-        "format-alt-click": "click",
-        "interval": 3600,
-        "return-type": "json",
-        "exec": "~/.config/niri/scripts/Weather.sh",
-        //"exec": "~/.config/waybar/scripts/Weather.py",
-        "exec-if": "ping wttr.in -c1",
-        "tooltip": true
-    },
-
-    
-    // Nightlight option.
-    "custom/nightlight": {
-        "format": "󰖔 ",
-        "exec": "~/.config/niri/scripts/nightlight.sh",
-        "on-click": "~/.config/niri/scripts/nightlight.sh --value",
-        "on-click-right": "~/.config/niri/scripts/nightlight.sh --def",
-        "tooltip": true,
-        "tooltip-format": "Left Click: set temp 5000k\nRight Click: set temp default",
-        "interval": 1
-    },
-
     // Wallpaper
     "custom/wallpaper": {
         "format": "󰸉 ",
         "tooltip-format": "Left Click: Change wallpaper\nRight Click: Select Wallpaper",
         "on-click": "~/.config/niri/scripts/Wallpaper.sh",
         "on-click-right": "~/.config/niri/scripts/WallpaperSelect.sh thm2"
-    },
-
-    // Theme (dark light)
-    "custom/theme": {
-        "format": " ",
-        "tooltip-format": "Toggle Dark/Light theme",
-        "on-click": "~/.config/niri/scripts/dark_light.sh",
     },
 
     // system info expand
