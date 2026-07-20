@@ -63,11 +63,11 @@ binds {
     Mod+Shift+W hotkey-overlay-title=null { spawn-sh "$HOME/.config/niri/scripts/Wallpaper.sh"; }
 
     // Workspaces
-    // Laptop-friendly Vim-style keys; PageUp/PageDown remain compatibility aliases.
-    Mod+J hotkey-overlay-title="下一个工作区" { focus-workspace-down; }
-    Mod+K hotkey-overlay-title="上一个工作区" { focus-workspace-up; }
-    Mod+Ctrl+J hotkey-overlay-title="当前列移到下一个工作区" { move-column-to-workspace-down; }
-    Mod+Ctrl+K hotkey-overlay-title="当前列移到上一个工作区" { move-column-to-workspace-up; }
+    // Laptop-friendly symbol keys; PageUp/PageDown remain compatibility aliases.
+    Mod+Minus hotkey-overlay-title="上一个工作区" { focus-workspace-up; }
+    Mod+Equal hotkey-overlay-title="下一个工作区" { focus-workspace-down; }
+    Mod+Ctrl+Minus hotkey-overlay-title="当前列移到上一个工作区" { move-column-to-workspace-up; }
+    Mod+Ctrl+Equal hotkey-overlay-title="当前列移到下一个工作区" { move-column-to-workspace-down; }
     Mod+Page_Down hotkey-overlay-title=null { focus-workspace-down; }
     Mod+Page_Up hotkey-overlay-title=null { focus-workspace-up; }
     Mod+Ctrl+Page_Down hotkey-overlay-title=null { move-column-to-workspace-down; }
