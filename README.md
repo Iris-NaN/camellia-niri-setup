@@ -145,6 +145,10 @@ generated from the main configuration automatically.
 - Battery and backlight Waybar modules hide themselves when the corresponding
   hardware is unavailable.
 
+For the machine these dotfiles were tuned on, `docs/hardware.en.md` records the
+drivers in use, the kernel command line, the wireless regulatory domain setup and
+the hardware limitations that cannot be fixed from the configuration side.
+
 ## Lock screen and idle behaviour
 
 `Mod+L` runs the `lock-screen.sh` helper, which locks the session with swaylock

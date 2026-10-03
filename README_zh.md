@@ -136,6 +136,9 @@ niri msg outputs
   设置为目标显示器的 ddcutil 编号。
 - 对应硬件不可用时，Waybar 的电池和背光模块会自动隐藏。
 
+这套配置所针对的机器，其驱动、内核命令行、无线法规域设置以及无法从配置层面
+解决的硬件限制，记录在 `docs/hardware.md` 中。
+
 ## 锁屏与空闲行为
 
 `Mod+L` 会调用 `lock-screen.sh`：先用 swaylock 锁定会话，然后才关闭显示器，
