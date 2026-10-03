@@ -179,3 +179,10 @@ changes.
 Run `./scripts/verify.sh`. It checks every shell script, verifies that referenced
 Niri helper scripts exist, regenerates the power-saver config, and validates both
 KDL files when `niri` is installed.
+
+Run `./scripts/verify-drivers.sh` to check the machine itself. It is read-only:
+nothing is loaded, unloaded or reconfigured, and a section is skipped when the
+matching hardware or tool is missing. It reports the driver behind the GPU,
+wireless and backlight devices, plus the regulatory domain, bluetooth, audio,
+camera, touchpad, sensors and CPU frequency scaling, and it fails when a driver
+is missing or the kernel reports a firmware load failure.
