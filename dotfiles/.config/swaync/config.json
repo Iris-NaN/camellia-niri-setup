@@ -32,6 +32,21 @@
   "hide-on-action": true,
   "script-fail-notify": true,
 
+  "scripts": {
+    "notification-sound-low": {
+      "urgency": "Low",
+      "exec": "sh -c '$HOME/.config/niri/scripts/notification-sound.sh'"
+    },
+    "notification-sound-normal": {
+      "urgency": "Normal",
+      "exec": "sh -c '$HOME/.config/niri/scripts/notification-sound.sh'"
+    },
+    "notification-sound-critical": {
+      "urgency": "Critical",
+      "exec": "sh -c '$HOME/.config/niri/scripts/notification-sound.sh'"
+    }
+  },
+
   "widgets": ["inhibitors", "dnd", "mpris", "notifications"],
   "widget-config": {
     "notifications": {
