@@ -5,5 +5,14 @@ After=graphical-session.target
 Requisite=graphical-session.target
 
 [Service]
-ExecStart=/usr/bin/swayidle -w timeout 600 'swaylock -f' timeout 900 'niri msg action power-off-monitors' resume 'niri msg action power-on-monitors' lock 'swaylock -f' before-sleep 'swaylock -f'
+# The "lock" event fires whenever a client requests a session lock, which covers
+# the Mod+L bind and any other locker. The helper locks the session first and
+# turns the monitors off afterwards; niri powers them back on when it receives
+# input or when the session is unlocked.
+ExecStart=/usr/bin/swayidle -w \
+    timeout 600 'swaylock -f' \
+    timeout 900 'niri msg action power-off-monitors' \
+    resume 'niri msg action power-on-monitors' \
+    lock '%h/.config/niri/scripts/lock-screen.sh' \
+    before-sleep 'niri msg action power-off-monitors'
 Restart=on-failure

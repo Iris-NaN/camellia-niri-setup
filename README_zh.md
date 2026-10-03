@@ -136,6 +136,18 @@ niri msg outputs
   设置为目标显示器的 ddcutil 编号。
 - 对应硬件不可用时，Waybar 的电池和背光模块会自动隐藏。
 
+## 锁屏与空闲行为
+
+`Mod+L` 会调用 `lock-screen.sh`：先用 swaylock 锁定会话，然后才关闭显示器，
+因此未锁定的桌面不会出现在屏幕上。只要会话收到输入或解除锁定，Niri 就会自动
+重新点亮显示器。
+
+`swayidle` 服务采用同样的策略：
+
+- `timeout 600` 锁定会话，`timeout 900` 关闭显示器。
+- `lock` 处理来自任何客户端的锁屏请求（包括 `Mod+L`），`before-sleep` 在挂起前
+  关闭显示器。
+
 ## 壁纸和动态配色
 
 将壁纸放入 `~/Pictures/Wallpapers`。项目内附带一张默认图片。现有的 Pywal 工作流

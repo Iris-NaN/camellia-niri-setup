@@ -6,7 +6,7 @@ binds {
     Mod+Shift+D hotkey-overlay-title=null { spawn-sh "~/.config/niri/scripts/rofi-emoji.sh"; }
     Mod+C hotkey-overlay-title="打开文件管理器" { spawn-sh "thunar"; }
     Mod+E hotkey-overlay-title="打开浏览器" { spawn-sh "firefox-developer-edition"; }
-    Mod+L hotkey-overlay-title="锁定屏幕" { spawn "swaylock"; }
+    Mod+L hotkey-overlay-title="锁定屏幕" { spawn-sh "~/.config/niri/scripts/lock-screen.sh"; }
     Mod+Shift+Slash hotkey-overlay-title="显示快捷键帮助" { spawn-sh "~/.config/niri/scripts/hotkey-help.sh"; }
 
     // Backlight

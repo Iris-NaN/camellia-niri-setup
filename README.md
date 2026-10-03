@@ -145,6 +145,19 @@ generated from the main configuration automatically.
 - Battery and backlight Waybar modules hide themselves when the corresponding
   hardware is unavailable.
 
+## Lock screen and idle behaviour
+
+`Mod+L` runs the `lock-screen.sh` helper, which locks the session with swaylock
+and only then powers the monitors off, so the desktop is never visible without
+the lock screen. Niri powers the monitors back on as soon as the session
+receives input or is unlocked.
+
+The `swayidle` service mirrors that behaviour:
+
+- `timeout 600` locks the session, `timeout 900` turns the monitors off.
+- `lock` handles session lock requests from any client, including `Mod+L`, and
+  `before-sleep` turns the monitors off before suspending.
+
 ## Wallpapers and dynamic colors
 
 Put wallpapers in `~/Pictures/Wallpapers`. One default image is bundled. The
