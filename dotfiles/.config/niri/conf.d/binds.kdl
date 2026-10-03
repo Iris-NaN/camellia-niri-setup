@@ -54,9 +54,12 @@ binds {
     Mod+BracketRight hotkey-overlay-title=null { consume-or-expel-window-right; }
     Mod+Comma hotkey-overlay-title=null { consume-window-into-column; }
     Mod+Period hotkey-overlay-title=null { expel-window-from-column; }
-    // Vertical monitor layouts still need an explicit column move
-    Mod+Ctrl+Shift+Up hotkey-overlay-title=null { move-column-to-monitor-up; }
-    Mod+Ctrl+Shift+Down hotkey-overlay-title=null { move-column-to-monitor-down; }
+    // Explicitly move the entire column to a neighboring monitor. Keep all
+    // four directions available for arbitrary output arrangements.
+    Mod+Ctrl+Shift+Left hotkey-overlay-title="当前列移到左侧屏幕" { move-column-to-monitor-left; }
+    Mod+Ctrl+Shift+Right hotkey-overlay-title="当前列移到右侧屏幕" { move-column-to-monitor-right; }
+    Mod+Ctrl+Shift+Up hotkey-overlay-title="当前列移到上方屏幕" { move-column-to-monitor-up; }
+    Mod+Ctrl+Shift+Down hotkey-overlay-title="当前列移到下方屏幕" { move-column-to-monitor-down; }
 
     // Wallpapers: choose or quickly randomize
     Mod+W hotkey-overlay-title=null { spawn-sh "$HOME/.config/niri/scripts/WallpaperSelect.sh thm1"; }

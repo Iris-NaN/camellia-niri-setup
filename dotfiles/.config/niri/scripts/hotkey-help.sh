@@ -19,10 +19,10 @@ Mod + Shift + F              当前窗口全屏
 Mod + ← / →                  左右切换焦点，可跨屏
 Mod + ↑ / ↓                  上下切换焦点，可跨屏
 Mod + Ctrl + ← / →           左右移动当前列，可跨屏
-Mod + Ctrl + ↑ / ↓           上下移动当前窗口
+Mod + Ctrl + ↑ / ↓           上下移动当前窗口（列内）
+Mod + Ctrl + Shift + 方向键  当前列直接移到对应屏幕
 Mod + Home / End             焦点移到首列 / 末列
 Mod + Ctrl + Home / End      当前列移到最前 / 最后
-Mod + Ctrl + Shift + ↑ / ↓   当前列移到上方 / 下方屏幕
 ── 工作区 ─────────────────────────────────────────────
 Mod + - / PageUp             上一个工作区
 Mod + = / PageDown           下一个工作区
