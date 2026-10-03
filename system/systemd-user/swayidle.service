@@ -2,7 +2,6 @@
 Description=Idle management for the Niri session
 PartOf=graphical-session.target
 After=graphical-session.target
-Requisite=graphical-session.target
 
 [Service]
 # The "lock" event fires whenever a client requests a session lock, which covers

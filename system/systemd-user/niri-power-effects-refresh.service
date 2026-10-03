@@ -2,7 +2,6 @@
 Description=Refresh Niri power effects after config changes
 PartOf=graphical-session.target
 After=graphical-session.target
-Requisite=graphical-session.target
 
 [Service]
 Type=oneshot

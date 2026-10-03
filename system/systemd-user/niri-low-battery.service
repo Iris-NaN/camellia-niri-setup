@@ -2,7 +2,6 @@
 Description=Switch to power saver on low battery
 PartOf=graphical-session.target
 After=graphical-session.target power-profiles-daemon.service upower.service
-Requisite=graphical-session.target
 
 [Service]
 Type=simple
