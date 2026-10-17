@@ -20,8 +20,10 @@ binds {
     XF86AudioMicMute      allow-when-locked=true hotkey-overlay-title=null { spawn-sh "wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"; }
 
     // Media
-    XF86AudioPlay         allow-when-locked=true hotkey-overlay-title=null { spawn-sh "playerctl play-pause"; }
-    XF86AudioPause        allow-when-locked=true hotkey-overlay-title=null { spawn-sh "playerctl pause"; }
+    // 两个键都走同一个去抖脚本：不管耳机固件发的是 Play 还是 Pause，
+    // 都按"当前状态取反"处理，避免只暂停不能续播。
+    XF86AudioPlay         allow-when-locked=true hotkey-overlay-title=null { spawn-sh "$HOME/.config/niri/scripts/media-toggle.sh"; }
+    XF86AudioPause        allow-when-locked=true hotkey-overlay-title=null { spawn-sh "$HOME/.config/niri/scripts/media-toggle.sh"; }
     XF86AudioNext         allow-when-locked=true hotkey-overlay-title=null { spawn-sh "playerctl next"; }
     XF86AudioPrev         allow-when-locked=true hotkey-overlay-title=null { spawn-sh "playerctl previous"; }
 
@@ -106,5 +108,29 @@ binds {
     Print hotkey-overlay-title=null { screenshot-screen; }
     Shift+Print hotkey-overlay-title=null { screenshot; }
     Ctrl+Print hotkey-overlay-title=null { screenshot-window; }
+
+    // ===== 键盘控制鼠标（pointer-key）=====
+    // Mod+Ctrl+P 开关。开启后：
+    //   H/J/K/L         小幅移动指针（按住可连续移动）
+    //   Shift+H/J/K/L   大幅移动
+    //   U / I / O       左键 / 右键 / 中键
+    //   Comma / Period  向上 / 向下滚一屏
+    // 关闭状态下这些键什么都不做。
+    Mod+Ctrl+P hotkey-overlay-title="切换指针键模式" {
+        spawn-sh "exec $HOME/.config/niri/scripts/pointer-key.sh toggle";
+    }
+    Mod+Ctrl+H hotkey-overlay-title=null { spawn-sh "exec $HOME/.config/niri/scripts/pointer-key.sh move -10 0"; }
+    Mod+Ctrl+J hotkey-overlay-title=null { spawn-sh "exec $HOME/.config/niri/scripts/pointer-key.sh move 0 10"; }
+    Mod+Ctrl+K hotkey-overlay-title=null { spawn-sh "exec $HOME/.config/niri/scripts/pointer-key.sh move 0 -10"; }
+    Mod+Ctrl+L hotkey-overlay-title=null { spawn-sh "exec $HOME/.config/niri/scripts/pointer-key.sh move 10 0"; }
+    Mod+Ctrl+Shift+H hotkey-overlay-title=null { spawn-sh "exec $HOME/.config/niri/scripts/pointer-key.sh move -60 0"; }
+    Mod+Ctrl+Shift+J hotkey-overlay-title=null { spawn-sh "exec $HOME/.config/niri/scripts/pointer-key.sh move 0 60"; }
+    Mod+Ctrl+Shift+K hotkey-overlay-title=null { spawn-sh "exec $HOME/.config/niri/scripts/pointer-key.sh move 0 -60"; }
+    Mod+Ctrl+Shift+L hotkey-overlay-title=null { spawn-sh "exec $HOME/.config/niri/scripts/pointer-key.sh move 60 0"; }
+    Mod+Ctrl+U hotkey-overlay-title=null { spawn-sh "exec $HOME/.config/niri/scripts/pointer-key.sh click 0xC0"; }
+    Mod+Ctrl+I hotkey-overlay-title=null { spawn-sh "exec $HOME/.config/niri/scripts/pointer-key.sh click 0xC1"; }
+    Mod+Ctrl+O hotkey-overlay-title=null { spawn-sh "exec $HOME/.config/niri/scripts/pointer-key.sh click 0xC2"; }
+    Mod+Ctrl+Comma hotkey-overlay-title=null { spawn-sh "exec $HOME/.config/niri/scripts/pointer-key.sh scroll up"; }
+    Mod+Ctrl+Period hotkey-overlay-title=null { spawn-sh "exec $HOME/.config/niri/scripts/pointer-key.sh scroll down"; }
 
 }

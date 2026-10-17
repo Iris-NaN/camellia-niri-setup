@@ -1,14 +1,17 @@
 // Example for the source laptop. Verify output names with `niri msg outputs`.
+// External 1080p panel sits directly above the internal panel: both are
+// 1920x1080 at scale 1, so the horizontal edges line up.
 output "HDMI-A-1" {
-    mode "3840x2160@60.000"
-    scale 1.5
+    mode "1920x1080@60.000"
+    scale 1
     position x=0 y=0
 }
 
 output "eDP-1" {
     mode "1920x1080@60.008"
     scale 1
-    position x=320 y=1440
+    position x=0 y=1080
     variable-refresh-rate
     focus-at-startup
+    backdrop-color "#001100"
 }
