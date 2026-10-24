@@ -3,13 +3,13 @@
 //---------------------- cursor ----------------------\\
 cursor {
     xcursor-theme "Bibata-Modern-Ice"
+    xcursor-size 24
 }
 
 // Light global blur for balanced mode.
 blur {
     off
 }
-
 
 //---------------------- input ----------------------\\
 input {
@@ -25,14 +25,12 @@ input {
     focus-follows-mouse
 }
 
-
 // Outputs intentionally use Niri's automatic layout for portability.
 // Copy a profile from this repository's profiles/ directory when needed.
 
-
 //---------------------- decoration ----------------------\\
 layout {
-    gaps 20
+    gaps 10
     always-center-single-column
     center-focused-column "never"
 
@@ -66,15 +64,14 @@ layout {
     background-color "transparent"
 }
 
-
 //---------------------- startup ----------------------\\
+spawn-at-startup "kanshi"
 spawn-at-startup "waybar"
 spawn-at-startup "swaync"
 spawn-at-startup "fcitx5" "-d"
 spawn-sh-at-startup "wl-paste --watch cliphist store"
 spawn-sh-at-startup "sh ~/.config/niri/scripts/startup.sh"
 spawn-sh-at-startup "sh ~/.config/niri/scripts/polkit.sh"
-
 
 //---------------------- layer rules ----------------------\\
 layer-rule {
@@ -103,8 +100,17 @@ animations {
     off
 }
 
-
 //---------------------- window rules ----------------------\\
+// Disable floating windows globally, except WPS
+window-rule {
+    open-floating false
+}
+
+window-rule {
+    match app-id="^wps$"
+    open-floating true
+}
+
 window-rule {
     match app-id="^kitty$"
     background-effect {
@@ -119,9 +125,13 @@ window-rule {
     }
 }
 
+// Keep newly opened floating windows away from niri's centered default.
+window-rule {
+    default-floating-position x=40 y=40 relative-to="top-left"
+}
 
 window-rule {
-    match app-id="firefox-developer-edition"
+    match app-id=r#"^firefox"#
     match app-id="code"
     match app-id="dev.zed.Zed"
     default-column-width { proportion 1.0; }
@@ -149,15 +159,9 @@ window-rule {
     }
 }
 
-
 window-rule {
     match title="LimbusCompany"
     open-fullscreen true
-}
-
-window-rule {
-    open-floating false
-    // open-maximized true
 }
 
 window-rule {
@@ -172,7 +176,12 @@ window-rule {
 window-rule {
     match app-id=r#"^org\.kde\.kdeconnect\.daemon$"#
     match app-id=r#"^galculator$"#
-    open-floating true
+    open-floating false
+}
+
+window-rule {
+    match app-id=r#"^org-geogebra-desktop-GeoGebra3D$"#
+    default-column-width { proportion 0.7; }
 }
 
 window-rule {
@@ -228,7 +237,6 @@ window-rule {
   }
 }
 
-
 //---------------------- keybinds ----------------------\\
 include "conf.d/binds.kdl"
 
@@ -241,14 +249,19 @@ hotkey-overlay {
 
 //---------------------- environment ----------------------\\
 environment {
-    QT_QPA_PLATFORMTHEME "qt6ct"
+    QT_QPA_PLATFORMTHEME "qt5ct"
+    QT_QPA_PLATFORM_THEME "qt5ct"
+    QT_QUICK_CONTROLS_STYLE "org.kde.desktop"
     QT_QPA_PLATFORM "wayland;xcb"
     QT_ICON_THEME "Papirus-Dark"
+    XCURSOR_THEME "Bibata-Modern-Ice"
+    XCURSOR_SIZE "24"
+    GTK_ICON_THEME "Papirus-Dark"
+    GTK_APPLICATION_PREFER_DARK_THEME "1"
+    ADW_DISABLE_PORTAL "1"
+    ICON_THEME "Papirus-Dark"
     XDG_CURRENT_DESKTOP "niri"
     XDG_SESSION_TYPE "wayland"
-    ICON_THEME "Papirus-Dark"
-    GTK_THEME "Layan:dark"
-    GTK_ICON_THEME "Papirus-Dark"
     INPUT_METHOD "fcitx"
     GTK_IM_MODULE "fcitx"
     QT_IM_MODULE "fcitx"

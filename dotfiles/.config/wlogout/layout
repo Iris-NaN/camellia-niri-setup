@@ -7,7 +7,7 @@
 
 {
     "label": "suspend",
-    "action": "HOME/.config/nini/scripts/power.sh --suspend",
+    "action": "$HOME/.config/niri/scripts/power.sh --suspend",
     "text": "Suspend",
     "keybind": "u"
 }

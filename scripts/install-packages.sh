@@ -30,11 +30,11 @@ aur_helper=$(command -v yay || command -v paru || true)
 if [[ -n "$aur_helper" ]]; then
     for package in "${aur[@]}"; do
         if ! run "$aur_helper" -S --needed "$package"; then
-            printf '\nOptional AUR package failed: %s; continuing with the remaining packages.\n' "$package" >&2
+            printf '\nAUR package failed: %s; continuing with the remaining packages. Dependent features may be unavailable.\n' "$package" >&2
         fi
     done
 else
-    printf '\nAUR helper not found; continuing without these optional packages:\n' >&2
+    printf '\nAUR helper not found; continuing without these packages. Dependent features may be unavailable:\n' >&2
     printf '  %s\n' "${aur[@]}" >&2
 fi
 
@@ -45,7 +45,7 @@ if (( ! dry_run )); then
     done
 
     if ((${#missing_aur[@]})); then
-        printf '\nThe desktop can start, but these optional AUR packages are still missing:\n' >&2
+        printf '\nThe desktop can start, but these AUR packages are still missing; dependent features may be unavailable:\n' >&2
         printf '  %s\n' "${missing_aur[@]}" >&2
     fi
 fi

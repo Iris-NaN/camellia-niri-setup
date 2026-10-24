@@ -1,5 +1,6 @@
 # Graphical session core
 niri
+kanshi
 xwayland-satellite
 waybar
 swaync
@@ -25,7 +26,6 @@ nwg-look
 qt5ct
 qt6ct
 papirus-icon-theme
-python-pywal
 imagemagick
 noto-fonts
 noto-fonts-cjk

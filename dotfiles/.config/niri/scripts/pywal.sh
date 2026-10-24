@@ -2,9 +2,10 @@
 
 scripts_dir="$HOME/.config/niri/scripts"
 current_wallpaper="$HOME/.config/niri/.cache/current_wallpaper.png"
-current_mode=$(cat "$HOME/.config/niri/.cache/.current_mode")
-
-current_wallpaper="$HOME/.config/niri/.cache/current_wallpaper.png"
+current_mode=""
+if [[ -r "$HOME/.config/niri/.cache/.current_mode" ]]; then
+    current_mode=$(<"$HOME/.config/niri/.cache/.current_mode")
+fi
 if [[ -f "$current_wallpaper" ]]; then
     rm -rf "$HOME/.cache/wal/schemes"
     if [[ -f "$HOME/.config/niri/.cache/.current_mode" ]]; then
@@ -80,19 +81,30 @@ avatar_script="$scripts_dir/sddm_avatar.sh"
 background_color=$background
 foreground_color=$foreground
 
-sed -i "s/--prompt.foreground .*/--prompt.foreground \"$foreground_color\" \\\/g" "$sysupd_script"
-sed -i "s/--selected.background .*/--selected.background \"$foreground_color\" \\\/g" "$sysupd_script"
-sed -i "s/--selected.foreground .*/--selected.foreground \"$background_color\" \\\/g" "$sysupd_script"
-sed -i "s/--spinner.foreground .*/--spinner.foreground \"$foreground_color\" \\\/g" "$sysupd_script"
-sed -i "s/--spinner.foreground .*/--spinner.foreground \"$foreground_color\" \\\/g" "$monitor_setup_script"
-sed -i "s/--title.foreground .*/--title.foreground \"$foreground_color\" \\\/g" "$monitor_setup_script"
-sed -i "s/--header.foreground .*/--header.foreground \"$foreground_color\" \\\/g" "$monitor_setup_script"
-sed -i "s/--selected.foreground .*/--selected.foreground \"$foreground_color\" \\\/g" "$monitor_setup_script"
-sed -i "s/--cursor.foreground .*/--cursor.foreground \"$foreground_color\" \\\/g" "$monitor_setup_script"
-sed -i "s/--header.foreground .*/--header.foreground \"$foreground_color\" \\\/g" "$settings_script"
-sed -i "s/--cursor.foreground .*/--cursor.foreground \"$foreground_color\" \\\/g" "$settings_script"
-sed -i "s/--header.foreground .*/--header.foreground \"$foreground_color\" \\\/g" "$avatar_script"
-sed -i "s/--placeholder.foreground .*/--placeholder.foreground \"$foreground_color\" \\\/g" "$avatar_script"
+if [[ -f "$sysupd_script" ]]; then
+    sed -i "s/--prompt.foreground .*/--prompt.foreground \"$foreground_color\" \\\/g" "$sysupd_script"
+    sed -i "s/--selected.background .*/--selected.background \"$foreground_color\" \\\/g" "$sysupd_script"
+    sed -i "s/--selected.foreground .*/--selected.foreground \"$background_color\" \\\/g" "$sysupd_script"
+    sed -i "s/--spinner.foreground .*/--spinner.foreground \"$foreground_color\" \\\/g" "$sysupd_script"
+fi
+
+if [[ -f "$monitor_setup_script" ]]; then
+    sed -i "s/--spinner.foreground .*/--spinner.foreground \"$foreground_color\" \\\/g" "$monitor_setup_script"
+    sed -i "s/--title.foreground .*/--title.foreground \"$foreground_color\" \\\/g" "$monitor_setup_script"
+    sed -i "s/--header.foreground .*/--header.foreground \"$foreground_color\" \\\/g" "$monitor_setup_script"
+    sed -i "s/--selected.foreground .*/--selected.foreground \"$foreground_color\" \\\/g" "$monitor_setup_script"
+    sed -i "s/--cursor.foreground .*/--cursor.foreground \"$foreground_color\" \\\/g" "$monitor_setup_script"
+fi
+
+if [[ -f "$settings_script" ]]; then
+    sed -i "s/--header.foreground .*/--header.foreground \"$foreground_color\" \\\/g" "$settings_script"
+    sed -i "s/--cursor.foreground .*/--cursor.foreground \"$foreground_color\" \\\/g" "$settings_script"
+fi
+
+if [[ -f "$avatar_script" ]]; then
+    sed -i "s/--header.foreground .*/--header.foreground \"$foreground_color\" \\\/g" "$avatar_script"
+    sed -i "s/--placeholder.foreground .*/--placeholder.foreground \"$foreground_color\" \\\/g" "$avatar_script"
+fi
 
 # remove these part if you don't like the colors according to your wallpaper.
 if [ -f "$colors_file" ]; then

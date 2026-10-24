@@ -8,7 +8,7 @@
 
 ## 包含的软件
 
-- 图形环境核心：Niri、Waybar、SwayNC、Fuzzel/Rofi、Kitty、门户组件和 Polkit
+- 图形环境核心：Niri、Kanshi、Waybar、SwayNC、Fuzzel/Rofi、Kitty、门户组件和 Polkit
 - 登录管理：SDDM，以及项目内附带的 SilentSDDM 主题
 - 外观：Layan Dark、Papirus Dark、Bibata 光标和 Pywal 动态配色
 - 文件管理：Thunar、GVfs、Tumbler 和 Ark
@@ -21,8 +21,8 @@
 
 ## 安装
 
-目前仅面向 Arch Linux。请先安装 `yay` 或 `paru`，因为有五个外观或桌面相关
-的软件包来自 AUR。安装程序会自动安装 AUR 构建所需的 `base-devel`。
+目前仅面向 Arch Linux。请先安装 `yay` 或 `paru`，因为有六个软件包
+（包括 Pywal）来自 AUR。安装程序会自动安装 AUR 构建所需的 `base-devel`。
 
 ```bash
 git clone https://github.com/Iris-NaN/camellia-niri-setup.git
@@ -59,8 +59,8 @@ cd camellia-niri-setup
 - 使用 `--no-sddm-theme` 保留当前登录主题。
 - Niri 专用的用户服务绑定到 `niri.service`，不会在 Plasma 会话或纯文本登录中
   启动。
-- AUR 外观或辅助包安装失败时会给出警告，但不会阻止用户配置、SDDM 和系统服务
-  继续部署。
+- AUR 软件包安装失败时会给出警告，但不会阻止用户配置、SDDM 和系统服务
+  继续部署；动态配色、锁屏或电源菜单等依赖这些包的功能可能不可用。
 
 如果 AUR 软件包使用的 GitHub 下载被阻断，可以为安装程序传入可信的 HTTPS
 代理。Git 和 curl 可能读取不同的环境变量，因此同时设置两种写法：
@@ -114,18 +114,29 @@ journalctl -b -k | grep -E 'features:|cap sets'
 虚拟机仍在使用软件渲染。启用 SPICE GL 后，一些传统 framebuffer 截图工具会截到
 黑图，即使 virt-manager 中的实际桌面显示正常。
 
-## 显示器布局
+## 显示器布局与热插拔
 
-默认配置不包含输出设备名称、分辨率或位置，因此 Niri 可以在不同硬件上安全
-启动。登录后运行：
+Kanshi 会随 Niri 会话启动，并读取 `~/.config/kanshi/config`。默认的便携配置会
+启用所有已连接显示器，但把模式、位置、缩放、旋转、VRR 和 HDR 留给 Niri 自动
+布局，因此没有写死任何输出设备名称或机器相关参数。
+
+常用命令：
 
 ```bash
-niri msg outputs
+niri msg outputs         # 查看连接器名称和显示器描述
+kanshictl status         # 查看当前生效的 Kanshi profile
+kanshictl reload         # 修改 ~/.config/kanshi/config 后重新加载
 ```
 
-如果新机器也需要将外接显示器放在内置屏幕上方，可以参考
-`profiles/outputs-external-top-internal-bottom.kdl`。将其中的输出设备配置块复制到
-`config.kdl`，并按实际情况调整。节能配置会自动根据主配置生成。
+需要固定工位时，在 `fallback` profile 之前添加具体 profile。Kanshi 会使用第一个
+完整覆盖当前所有已连接输出的 profile，因此可以同时定义扩展屏和合盖等场景。
+若连接器名称可能变化，优先使用稳定的“厂商 型号 序列号”描述。
+
+`profiles/outputs-external-top-internal-bottom.kdl` 仍作为“外接屏在上、内置屏在
+下”的静态 Niri 配置参考。不要同时对同一输出属性使用 Kanshi profile 和静态 Niri
+输出配置块。
+
+节能配置会自动根据主配置生成。
 
 ## 硬件适配
 
@@ -169,7 +180,8 @@ Rofi、SwayNC 和 Wlogout 的相关链接，并在壁纸配色变化时重新生
 ## 验证
 
 运行 `./scripts/verify.sh`。它会检查所有 Shell 脚本，确认引用的 Niri 辅助脚本
-存在，重新生成节能配置，并在已安装 `niri` 时验证两个 KDL 文件。
+存在，重新生成节能配置，并在已安装 `niri` 时验证两个 KDL 文件、在已安装
+`kanshi` 时验证 Kanshi profile。
 
 运行 `./scripts/verify-drivers.sh` 可以体检本机硬件驱动。该脚本**只读**：不会加载、
 卸载或修改任何配置；对应硬件或工具不存在时会跳过该小节。它会报告 GPU、无线网卡、

@@ -1,0 +1,35 @@
+# Kanshi output profiles.
+#
+# Kanshi applies the first profile that covers every currently connected
+# output. Put machine-specific profiles above the portable fallback below.
+#
+# Find connector names with:
+#   niri msg outputs
+#
+# Kanshi also accepts a stable output description:
+#   "Manufacturer Model Serial"   or   "Manufacturer Model *"
+#
+# Example: internal panel only, with a 150% scale.
+# profile "internal" {
+#     output "eDP-1" enable scale 1.5
+# }
+#
+# Example: external monitor above the internal panel.
+# profile "external-above" {
+#     output "HDMI-A-1" enable position 0,0 scale 1
+#     output "eDP-1" enable position 0,1080 scale 1
+# }
+#
+# Example: docked profile that disables the internal panel.
+# profile "docked" {
+#     output "Dell Inc. DELL U2720Q *" enable position 0,0 scale 1.5
+#     output "eDP-1" disable
+# }
+#
+# Fallback: enable every connected output. Mode, position, scale, transform,
+# VRR, and HDR are intentionally left to Niri's automatic layout. This keeps
+# the default configuration portable across laptops, desktops, and docks.
+
+profile "fallback" {
+    ...output "*" enable
+}

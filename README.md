@@ -8,7 +8,8 @@ state, destructive uninstall steps, and machine-specific output names.
 
 ## Included software
 
-- Graphical core: Niri, Waybar, SwayNC, Fuzzel/Rofi, Kitty, portals and Polkit
+- Graphical core: Niri, Kanshi, Waybar, SwayNC, Fuzzel/Rofi, Kitty, portals
+  and Polkit
 - Login: SDDM with the bundled SilentSDDM theme
 - Appearance: Layan Dark, Papirus Dark, Bibata cursor, Pywal dynamic colors
 - Files: Thunar, GVfs, Tumbler and Ark
@@ -21,8 +22,8 @@ Exact package lists live in `packages/official.txt` and `packages/aur.txt`.
 
 ## Install
 
-This currently targets Arch Linux. Install `yay` or `paru` first because five
-appearance/desktop packages come from the AUR. The installer installs the
+This currently targets Arch Linux. Install `yay` or `paru` first because six
+packages, including Pywal, come from the AUR. The installer installs the
 `base-devel` prerequisite automatically.
 
 ```bash
@@ -60,8 +61,9 @@ The default is deliberately conservative:
 - Use `--no-sddm-theme` to keep the current login theme.
 - Niri-specific user services are linked to `niri.service`; they do not start
   inside Plasma or a text login.
-- AUR appearance/helper failures are reported but do not prevent user configs,
-  SDDM or system services from being deployed.
+- AUR package failures are reported but do not prevent user configs, SDDM, or
+  system services from being deployed. Features that depend on those packages,
+  such as dynamic colors, screen locking, or the power menu, may be unavailable.
 
 If GitHub downloads used by AUR packages are blocked, pass a trusted HTTPS
 proxy to the installer. Both spellings are set because Git and curl may consult
@@ -121,19 +123,34 @@ the VM is still using software rendering. Some framebuffer screenshot tools
 show a black image with SPICE GL even when virt-manager displays the desktop
 correctly.
 
-## Display layout
+## Display layout and hotplug
 
-The default configuration does not contain output names, resolutions or
-positions, so Niri can start safely on different hardware. After logging in:
+Kanshi starts with the Niri session and reads `~/.config/kanshi/config`. Its
+portable fallback enables every connected output while leaving mode, position,
+scale, transform, VRR, and HDR to Niri. No output names or machine-specific
+values are baked into the default configuration.
+
+Useful commands:
 
 ```bash
-niri msg outputs
+niri msg outputs         # connector names and monitor descriptions
+kanshictl status         # active Kanshi profile
+kanshictl reload         # reload after editing ~/.config/kanshi/config
 ```
 
-Use `profiles/outputs-external-top-internal-bottom.kdl` as a reference if the
-new machine also needs an external display above the internal panel. Copy and
-adjust its output blocks in `config.kdl`. The power-saver configuration is
-generated from the main configuration automatically.
+For a fixed desk, add a specific profile above the `fallback` profile in
+`~/.config/kanshi/config`. Kanshi chooses the first profile that covers every
+currently connected output, so docked and undocked setups can coexist.
+Prefer stable manufacturer/model/serial descriptions when connector names
+change.
+
+`profiles/outputs-external-top-internal-bottom.kdl` is still available as a
+static Niri-only alternative for a permanently wired external display above
+the internal panel. Use either a Kanshi profile or static Niri output blocks
+for the same output properties, not both.
+
+The power-saver configuration is generated from the main Niri configuration
+automatically.
 
 ## Hardware adaptation
 
@@ -181,8 +198,9 @@ changes.
 ## Verification
 
 Run `./scripts/verify.sh`. It checks every shell script, verifies that referenced
-Niri helper scripts exist, regenerates the power-saver config, and validates both
-KDL files when `niri` is installed.
+Niri helper scripts exist, regenerates the power-saver config, validates both KDL
+files when `niri` is installed, and validates the Kanshi profile when `kanshi` is
+installed.
 
 Run `./scripts/verify-drivers.sh` to check the machine itself. It is read-only:
 nothing is loaded, unloaded or reconfigured, and a section is skipped when the

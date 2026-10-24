@@ -68,7 +68,7 @@ layout {
 }
 
 //---------------------- startup ----------------------\\
-spawn-at-startup "/usr/bin/kanshi"
+spawn-at-startup "kanshi"
 spawn-at-startup "waybar"
 spawn-at-startup "swaync"
 spawn-at-startup "fcitx5" "-d"
@@ -172,7 +172,7 @@ window-rule {
 }
 
 window-rule {
-    match app-id="firefox-developer-edition "
+    match app-id=r#"^firefox"#
     match app-id="code"
     match app-id="dev.zed.Zed"
     default-column-width { proportion 1.0; }

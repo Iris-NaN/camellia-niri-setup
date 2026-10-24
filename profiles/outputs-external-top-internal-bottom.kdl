@@ -1,3 +1,5 @@
+// Alternative to a Kanshi profile in ~/.config/kanshi/config.
+// Use one mechanism for the same output properties, not both.
 // Example for the source laptop. Verify output names with `niri msg outputs`.
 // External 1080p panel sits directly above the internal panel: both are
 // 1920x1080 at scale 1, so the horizontal edges line up.

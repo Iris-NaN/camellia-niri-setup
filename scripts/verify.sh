@@ -4,6 +4,7 @@ set -euo pipefail
 
 root_dir=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)
 niri_dir="$root_dir/dotfiles/.config/niri"
+kanshi_config="$root_dir/dotfiles/.config/kanshi/config"
 status=0
 
 printf 'Checking shell syntax...\n'
@@ -48,6 +49,32 @@ if command -v niri >/dev/null; then
     niri validate -c "$niri_dir/config-power-saver.kdl"
 else
     printf 'Skipping KDL validation: niri is not installed.\n'
+fi
+
+if [[ ! -f "$kanshi_config" ]]; then
+    printf 'Missing Kanshi configuration: %s\n' "$kanshi_config" >&2
+    status=1
+elif command -v kanshi >/dev/null; then
+    # Kanshi has no separate --check mode. It parses the config before
+    # connecting to Wayland, so an intentionally invalid display lets us verify
+    # the configuration without touching the real session.
+    printf 'Validating Kanshi configuration...\n'
+    mkdir -p "$temporary/kanshi-runtime"
+    if ! (
+        unset WAYLAND_SOCKET
+        export XDG_RUNTIME_DIR="$temporary/kanshi-runtime"
+        export WAYLAND_DISPLAY=invalid-wayland-display
+        kanshi -c "$kanshi_config"
+    ) >"$temporary/kanshi.log" 2>&1; then
+        :
+    fi
+    if ! grep -Fq 'failed to connect to display' "$temporary/kanshi.log"; then
+        cat "$temporary/kanshi.log" >&2
+        printf 'Kanshi configuration failed to parse.\n' >&2
+        status=1
+    fi
+else
+    printf 'Skipping Kanshi validation: kanshi is not installed.\n'
 fi
 
 if command -v fuzzel >/dev/null; then
