@@ -22,7 +22,7 @@ Exact package lists live in `packages/official.txt` and `packages/aur.txt`.
 
 ## Install
 
-This currently targets Arch Linux. Install `yay` or `paru` first because six
+This currently targets Arch Linux. Install `yay` or `paru` first because five
 packages, including Pywal, come from the AUR. The installer installs the
 `base-devel` prerequisite automatically.
 
@@ -181,8 +181,10 @@ The `swayidle` service mirrors that behaviour:
 
 ## Wallpapers and dynamic colors
 
-Put wallpapers in `~/Pictures/Wallpapers`. One default image is bundled. The
-existing Pywal workflow remains the color source; the installer recreates its
+Put wallpapers in `~/Pictures/Wallpapers`. One default image is bundled. Static
+JPG/JPEG/PNG wallpapers are supported; animated GIF wallpapers are intentionally
+omitted along with the `mpvpaper` dependency. The existing Pywal workflow
+remains the color source; the installer recreates its
 Waybar, Kitty, Rofi, SwayNC and Wlogout links for the target user's home. It
 also regenerates the complete btop theme whenever the wallpaper palette
 changes.

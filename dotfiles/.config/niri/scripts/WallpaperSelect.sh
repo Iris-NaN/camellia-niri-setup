@@ -7,7 +7,7 @@ random_label="Random wallpaper"
 
 mapfile -d '' -t wallpapers < <(
     find "$wallpaper_dir" -type f \
-        \( -iname '*.jpg' -o -iname '*.jpeg' -o -iname '*.png' -o -iname '*.gif' \) \
+        \( -iname '*.jpg' -o -iname '*.jpeg' -o -iname '*.png' \) \
         -print0 | sort -z
 )
 
@@ -20,11 +20,7 @@ menu() {
     local path label
     for path in "${wallpapers[@]}"; do
         label=${path#"$wallpaper_dir"/}
-        if [[ ${path,,} == *.gif ]]; then
-            printf '%s\n' "$label"
-        else
-            printf '%s\0icon\x1f%s\n' "$label" "$path"
-        fi
+        printf '%s\0icon\x1f%s\n' "$label" "$path"
     done
     printf '%s\n' "$random_label"
 }

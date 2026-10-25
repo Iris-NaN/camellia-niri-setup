@@ -12,19 +12,15 @@ fi
 wallpaper=$(realpath "$wallpaper")
 mkdir -p "$cache_dir"
 
-# Stop the previous static or animated wallpaper backend.
+# Stop the previous static wallpaper backend.
 pkill -x swaybg 2>/dev/null || true
-pkill -x mpvpaper 2>/dev/null || true
 
 case "${wallpaper,,}" in
-    *.gif)
-        setsid -f mpvpaper -o "no-audio loop" "*" "$wallpaper" >/dev/null 2>&1
-        ;;
     *.jpg|*.jpeg|*.png)
         setsid -f swaybg -i "$wallpaper" -m fill >/dev/null 2>&1
         ;;
     *)
-        notify-send -u critical "Wallpaper" "Unsupported format: $wallpaper"
+        notify-send -u critical "Wallpaper" "Unsupported format (use JPG/JPEG/PNG): $wallpaper"
         exit 1
         ;;
 esac

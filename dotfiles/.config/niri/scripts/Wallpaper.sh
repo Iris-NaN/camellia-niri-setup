@@ -5,7 +5,7 @@ setter="$HOME/.config/niri/scripts/set-wallpaper.sh"
 
 mapfile -d '' -t wallpapers < <(
     find "$wallpaper_dir" -type f \
-        \( -iname '*.jpg' -o -iname '*.jpeg' -o -iname '*.png' -o -iname '*.gif' \) \
+        \( -iname '*.jpg' -o -iname '*.jpeg' -o -iname '*.png' \) \
         -print0
 )
 

@@ -21,7 +21,7 @@
 
 ## 安装
 
-目前仅面向 Arch Linux。请先安装 `yay` 或 `paru`，因为有六个软件包
+目前仅面向 Arch Linux。请先安装 `yay` 或 `paru`，因为有五个软件包
 （包括 Pywal）来自 AUR。安装程序会自动安装 AUR 构建所需的 `base-devel`。
 
 ```bash
@@ -164,7 +164,8 @@ kanshictl reload         # 修改 ~/.config/kanshi/config 后重新加载
 
 ## 壁纸和动态配色
 
-将壁纸放入 `~/Pictures/Wallpapers`。项目内附带一张默认图片。现有的 Pywal 工作流
+将壁纸放入 `~/Pictures/Wallpapers`。项目内附带一张默认图片。支持 JPG/JPEG/PNG
+静态壁纸；为了去掉 `mpvpaper` 依赖，默认不再支持动态 GIF 壁纸。现有的 Pywal 工作流
 仍然作为配色来源；安装程序会在目标用户的主目录中重新创建 Waybar、Kitty、
 Rofi、SwayNC 和 Wlogout 的相关链接，并在壁纸配色变化时重新生成完整的 btop
 主题。

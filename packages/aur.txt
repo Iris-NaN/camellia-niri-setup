@@ -2,6 +2,5 @@
 python-pywal
 swaylock-effects
 wlogout
-mpvpaper
 layan-gtk-theme-git
 bibata-cursor-theme-bin
